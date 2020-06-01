@@ -89,7 +89,7 @@
 
     <h2 id="avant-larrivée-du-user-namespace-dans-docker">Avant l&rsquo;arrivée du user namespace dans Docker</h2>
 <p>Lancement d&rsquo;un conteneur Jenkins</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run --name jenkins –d jenkins/jenkins:lts</code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run --name jenkins --d jenkins/jenkins:lts</code></pre></div>
 <p>A quel utilisateur appartient le process à l&rsquo;intérieur du conteneur ?</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ps -xao uid,cmd | grep jenkins
 
@@ -106,7 +106,7 @@ jclegras:x:1000:1000:jclegras,,,:/home/jclegras:/bin/bash</code></pre></div>
 
 UID CMD
 <span style="color:#ae81ff">0</span>   java <span style="color:#f92672">[</span>...<span style="color:#f92672">]</span> -jar /usr/share/jenkins/jenkins.war</code></pre></div>
-<p>Cette fois-ci le process appartient bien à l&rsquo;utilisateur <strong>root</strong></p>
+<p>Cette fois-ci le process appartient bien à l&rsquo;utilisateur <strong>root</strong>.</p>
 <p>Une question s’impose alors d’elle-même: comment le docker engine
 fait-il pour faire la correspondance entre les users de mes conteneurs,
 et les users de la machine hôte, ou autrement dit, comment se fait-il
@@ -128,7 +128,7 @@ que le premier process appartienne à jclegras et le deuxième à root ?</p>
 </span><span style="color:#ae81ff"></span>  <span style="color:#f92672">&amp;&amp;</span> useradd -d <span style="color:#e6db74">&#34;</span>$JENKINS_HOME<span style="color:#e6db74">&#34;</span> -u <span style="color:#e6db74">${</span>uid<span style="color:#e6db74">}</span> -g <span style="color:#e6db74">${</span>gid<span style="color:#e6db74">}</span> -m -s /bin/bash <span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#f92672">[</span>...<span style="color:#f92672">]</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">USER</span><span style="color:#e6db74"> ${user}  </span></code></pre></div>
-<p>Et voici ce que ça raconte : on créer un user et un group jenkins avec un uid
+<p>Et voici ce que ça raconte : on crée un user et un group jenkins avec un uid
 et un gid égales à 1000 puis on dit que, par défaut, en l’absence de user
 explicite (l’option -u que nous avons fourni plus haut),
 le process à l&rsquo;intérieur du conteneur s’exécutera avec les droits de
@@ -159,7 +159,7 @@ de lancer vos conteneurs sous un autre utilisateur que root</strong>
 (ce qu’ont bien compris les concepteurs de l’image Jenkins).</p>
 <h3 id="le-danger-de-la-correspondance-des-users-par-défaut">Le danger de la correspondance des users par défaut</h3>
 <p>Imaginons que je suive donc les best practices et que je lance le
-conteneur Jenkins avec l&rsquo;utilisateur Jenkins comme dans le premier
+conteneur Jenkins avec l&rsquo;utilisateur jenkins comme dans le premier
 exemple.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -name jenkins -d jenkins</code></pre></div>
 <p>Rien ne m’empêche par la suite de rentrer à l’intérieur avec
@@ -216,7 +216,7 @@ de groupes “subalternes” en utilisant comme point de référence, resp.,
 l’utilisateur et le groupe dockremap :</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#34;dockremap:500000:65536&#34;</span> &gt;&gt; /etc/subuid <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span> echo <span style="color:#e6db74">&#34;dockremap:500000:65536&#34;</span> &gt;&gt; /etc/subgid</code></pre></div>
-<p>Finalement, ajoutons l’option magique <strong>&ndash;userns-remap</strong> pour activer le user namespace dans les conteneurs
+<p>Finalement, ajoutons l’option magique <strong>userns-remap</strong> pour activer le user namespace dans les conteneurs
 (passons par le fichier de conf du démon docker pour l’occasion) :</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{ <span style="color:#f92672">&#34;userns-remap&#34;</span>: <span style="color:#e6db74">&#34;default&#34;</span> }</code></pre></div>
 <p>On remarquera que default est un alias de <em>dockremap</em> :
