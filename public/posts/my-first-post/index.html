@@ -19,7 +19,7 @@
 </head><body><div class="sidebar animated fadeInDown">
     <div class="logo-title">
       <div class="title">
-        <img src="https://jclegras.github.io/avatar.jpeg" alt="profile picture">
+        <img src="https://jclegras.github.io/profile.webp" alt="profile picture">
         <h3 title=""><a href="/">I&#39;m Jean-Charles Legras</a></h3>
         <div class="description">
           <p>Call me JC</p>
@@ -29,28 +29,21 @@
     <ul class="social-links">
         
         <li>
-        <a href="https://de.linkedin.com/" rel="me" aria-label="Linkedin">
+        <a href="https://www.linkedin.com/in/jean-charles-legras-708b39a4/" rel="me" aria-label="Linkedin">
           <i class="fa fa-2x fa-linkedin" aria-hidden="true"></i>
         </a>          
         </li>
 
         
         <li>
-        <a href="https://github.com/lxndrblz/anatole/" rel="me" aria-label="GitHub">
+        <a href="https://github.com/jclegras" rel="me" aria-label="GitHub">
           <i class="fa fa-2x fa-github" aria-hidden="true"></i>
         </a>          
         </li>
 
         
         <li>
-        <a href="https://www.instagram.com/" rel="me" aria-label="instagram">
-          <i class="fa fa-2x fa-instagram" aria-hidden="true"></i>
-        </a>          
-        </li>
-
-        
-        <li>
-        <a href="mailto:mail@alexbilz.com" rel="me" aria-label="e-mail">
+        <a href="mailto:jeancharles.legras@gmail.com" rel="me" aria-label="e-mail">
           <i class="fa fa-2x fa-envelope" aria-hidden="true"></i>
         </a>          
         </li>
@@ -105,7 +98,7 @@ UID  CMD
 <p>L&rsquo;UID est fixé à <strong>jclegras</strong>, mon nom de login.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ grep <span style="color:#ae81ff">1000</span> /etc/passwd
 
-jclegras❌1000:1000:jclegras,,,:/home/jclegras:/bin/bash</code></pre></div>
+jclegras:x:1000:1000:jclegras,,,:/home/jclegras:/bin/bash</code></pre></div>
 <p>Essayons maintenant de lancer le conteneur avec l&rsquo;utilisateur root (option <em>-u</em>)</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run -u root --name jenkins_root –d jenkins/jenkins:lts</code></pre></div>
 <p>Encore une fois, regardons le résultat obtenu :</p>
