@@ -12,6 +12,16 @@
     
     
     <item>
+      <title>About</title>
+      <link>https://jclegras.github.io/about/</link>
+      <pubDate>Tue, 02 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://jclegras.github.io/about/</guid>
+      <description>Bonjour et bienvenue sur ce modeste blog !
+Je m&amp;rsquo;appelle Jean-Charles Legras et je suis SRE/DevOps depuis bientôt cinq ans maintenant.</description>
+    </item>
+    
+    <item>
       <title>Le user namespace dans Docker</title>
       <link>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</link>
       <pubDate>Mon, 01 Jun 2020 13:35:49 +0200</pubDate>
