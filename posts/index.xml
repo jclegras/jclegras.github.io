@@ -13,10 +13,10 @@
     
     <item>
       <title>Le user namespace dans Docker</title>
-      <link>https://jclegras.github.io/posts/my-first-post/</link>
+      <link>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</link>
       <pubDate>Mon, 01 Jun 2020 13:35:49 +0200</pubDate>
       
-      <guid>https://jclegras.github.io/posts/my-first-post/</guid>
+      <guid>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</guid>
       <description>Avant l&amp;rsquo;arrivée du user namespace dans Docker Lancement d&amp;rsquo;un conteneur Jenkins</description>
     </item>
     

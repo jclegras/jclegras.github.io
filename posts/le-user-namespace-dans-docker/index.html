@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light"><head>
+    <title> Jean-Charles Legras | Le user namespace dans Docker </title>
+    <meta charset="utf-8"><meta name="generator" content="Hugo 0.72.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="description" content="Call me JC">
+    
+    <link rel="stylesheet" href="https://jclegras.github.io/css/style.min.67cd718c0a3c8009c771494d381fb7128246a454bd0518fed97cb65d257db948.css" integrity="sha256-Z81xjAo8gAnHcUlNOB&#43;3EoJGpFS9BRj&#43;2Xy2XSV9uUg=" crossorigin="anonymous" type="text/css">
+    
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    
+    <link rel="shortcut icon" href="https://jclegras.github.io/favicons/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://jclegras.github.io/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://jclegras.github.io/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://jclegras.github.io/favicons/favicon-16x16.png">
+    <link rel="canonical" href="https://jclegras.github.io/posts/le-user-namespace-dans-docker/">
+    
+    
+    <script type="text/javascript" src="https://jclegras.github.io/js/anatole-header.min.c275265a259296f3dd50e8236a77fcbcadb1dbb9597d3045c675dcc2c7c58a93.js" integrity="sha256-wnUmWiWSlvPdUOgjanf8vK2x27lZfTBFxnXcwsfFipM=" crossorigin="anonymous"></script>
+</head><body><div class="sidebar animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src="https://jclegras.github.io/profile.webp" alt="profile picture">
+        <h3 title=""><a href="/">I&#39;m Jean-Charles Legras</a></h3>
+        <div class="description">
+          <p>Call me JC</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links">
+        
+        <li>
+        <a href="https://www.linkedin.com/in/jean-charles-legras-708b39a4/" rel="me" aria-label="Linkedin">
+          <i class="fa fa-2x fa-linkedin" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+        <li>
+        <a href="https://github.com/jclegras" rel="me" aria-label="GitHub">
+          <i class="fa fa-2x fa-github" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+        <li>
+        <a href="mailto:jeancharles.legras@gmail.com" rel="me" aria-label="e-mail">
+          <i class="fa fa-2x fa-envelope" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+    </ul>
+    <div class="footer">
+        <div class="by_farbox">&copy; Jean-Charles Legras 2020 </div>
+      </div>
+    </div>
+</div><div class="main">
+            <div class="page-top animated fadeInDown">
+    <ul class="nav">
+        
+        
+        
+        <li><a  href="/" title="">Home</a></li>
+        
+        
+        <li><a  href="/posts/" title="">Posts</a></li>
+        
+        
+        <li><a  href="/about/" title="">About</a></li>
+        
+    </ul>
+    <div class="themeswitcher">
+        <a class="theme-switch" title="Switch Theme">
+            <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+
+            <div class="autopagerize_page_element">
+                <div class="content">
+<div class="post animated fadeInDown">
+    <div class="post-content">
+
+      <div class="post-title">
+        <h3>Le user namespace dans Docker
+        </h3>
+        
+        </div>
+
+    <h2 id="avant-larrivée-du-user-namespace-dans-docker">Avant l&rsquo;arrivée du user namespace dans Docker</h2>
+<p>Lancement d&rsquo;un conteneur Jenkins</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run --name jenkins --d jenkins/jenkins:lts</code></pre></div>
+<p>A quel utilisateur appartient le process à l&rsquo;intérieur du conteneur ?</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ps -xao uid,cmd | grep jenkins
+
+UID  CMD
+<span style="color:#ae81ff">1000</span> java <span style="color:#f92672">[</span>...<span style="color:#f92672">]</span> -jar /usr/share/jenkins/jenkins.war</code></pre></div>
+<p>L&rsquo;UID est fixé à <strong>jclegras</strong>, mon nom de login.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ grep <span style="color:#ae81ff">1000</span> /etc/passwd
+
+jclegras:x:1000:1000:jclegras,,,:/home/jclegras:/bin/bash</code></pre></div>
+<p>Essayons maintenant de lancer le conteneur avec l&rsquo;utilisateur root (option <em>-u</em>)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run -u root --name jenkins_root –d jenkins/jenkins:lts</code></pre></div>
+<p>Encore une fois, regardons le résultat obtenu :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ps -xao uid,cmd | grep jenkins 
+
+UID CMD
+<span style="color:#ae81ff">0</span>   java <span style="color:#f92672">[</span>...<span style="color:#f92672">]</span> -jar /usr/share/jenkins/jenkins.war</code></pre></div>
+<p>Cette fois-ci le process appartient bien à l&rsquo;utilisateur <strong>root</strong>.</p>
+<p>Une question s’impose alors d’elle-même: comment le docker engine
+fait-il pour faire la correspondance entre les users de mes conteneurs,
+et les users de la machine hôte, ou autrement dit, comment se fait-il
+que le premier process appartienne à jclegras et le deuxième à root ?</p>
+<h3 id="correspondance-des-users">Correspondance des users</h3>
+<p>Pour le premier exemple, il faut regarder d’un peu plus près le <a href="https://github.com/jenkinsci/docker/blob/master/Dockerfile">Dockerfile de Jenkins</a>.</p>
+<p>Les lignes qui nous intéressent sont :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#66d9ef">ARG</span> user<span style="color:#f92672">=</span>jenkins
+<span style="color:#66d9ef">ARG</span> group<span style="color:#f92672">=</span>jenkins
+<span style="color:#66d9ef">ARG</span> uid<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>
+<span style="color:#66d9ef">ARG</span> gid<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Jenkins is run with user `jenkins`, uid = 1000</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># If you bind mount a volume from the host or a data container,</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ensure you use the same uid</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p $JENKINS_HOME <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  <span style="color:#f92672">&amp;&amp;</span> chown <span style="color:#e6db74">${</span>uid<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>gid<span style="color:#e6db74">}</span> $JENKINS_HOME <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  <span style="color:#f92672">&amp;&amp;</span> groupadd -g <span style="color:#e6db74">${</span>gid<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>group<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  <span style="color:#f92672">&amp;&amp;</span> useradd -d <span style="color:#e6db74">&#34;</span>$JENKINS_HOME<span style="color:#e6db74">&#34;</span> -u <span style="color:#e6db74">${</span>uid<span style="color:#e6db74">}</span> -g <span style="color:#e6db74">${</span>gid<span style="color:#e6db74">}</span> -m -s /bin/bash <span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#f92672">[</span>...<span style="color:#f92672">]</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">USER</span><span style="color:#e6db74"> ${user}  </span></code></pre></div>
+<p>Et voici ce que ça raconte : on crée un user et un group jenkins avec un uid
+et un gid égales à 1000 puis on dit que, par défaut, en l’absence de user
+explicite (l’option -u que nous avons fourni plus haut),
+le process à l&rsquo;intérieur du conteneur s’exécutera avec les droits de
+l’utilisateur <strong>jenkins</strong>.</p>
+<p>Mais alors, comment se fait-il qu’un ps m’affirme que le conteneur
+appartient à <em>jclegras</em> ?</p>
+<p>A dire vrai, avant la <a href="https://www.docker.com/blog/docker-engine-1-10-security/">1.10</a>, Docker mappait exclusivement les users
+(ou plus exactement les uid/gid) selon l’hôte:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ id
+
+jclegras uid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>jclegras<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>jclegras<span style="color:#f92672">)</span></code></pre></div>
+<p>C’est ainsi qu’on aperçoit le côté un peu tricky de la chose :
+à l’intérieur du conteneur, par défaut, je suis le user jenkins mais
+à l’extérieur, je suis mappé sur un user qui <strong>correspond à</strong> jenkins,
+c’est-à-dire à quelqu’un possédant ses identifiants :</p>
+<pre><code>uid=1000(jenkins) gid=1000(jenkins) groups=1000(jenkins)
+</code></pre><p>Autrement dit, l’utilisateur jenkins est en réalité l’utilisateur
+jclegras sur la machine hôte !</p>
+<p>Par extension, lorsque j’ai lancé mon deuxième conteneur en tant que
+root, l’utilisateur root du conteneur était en réalité l’utilisateur
+correspondant aux identifiants (uid/gid) de root :</p>
+<pre><code>uid=0(root) gid=0(root) groups=0(root)
+</code></pre><p>Et je ne vous apprends rien en disant que ce sont exactement les même
+identifiants que le user root de la machine hôte.</p>
+<p>Le root du conteneur est donc mappé sur le root de l’hôte !</p>
+<p><strong>C’est pourquoi, dans les bonnes pratiques de Docker, il est conseillé
+de lancer vos conteneurs sous un autre utilisateur que root</strong>
+(ce qu’ont bien compris les concepteurs de l’image Jenkins).</p>
+<h3 id="le-danger-de-la-correspondance-des-users-par-défaut">Le danger de la correspondance des users par défaut</h3>
+<p>Imaginons que je suive donc les best practices et que je lance le
+conteneur Jenkins avec l&rsquo;utilisateur jenkins comme dans le premier
+exemple.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -name jenkins -d jenkins</code></pre></div>
+<p>Rien ne m’empêche par la suite de rentrer à l’intérieur avec
+l’utilisateur root (il y a toujours un utilisateur root disponible dans les conteneurs) :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker exec -u root -it jenkins bash</code></pre></div>
+<p>Vous me direz que ce n’est rien, après tout, tout ce que je peux faire
+dans le conteneur reste dans le conteneur, et c’est le but d’un tel outil.</p>
+<p><strong>Que se passe-t-il lorsque nous commençons à monter des volumes ?</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -v <span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>/jenkins_home:/var/jenkins_home -d jenkins</code></pre></div>
+<p>Ou plus généralement :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -v /répertoire_critique:/opt/dest -d jenkins</code></pre></div>
+<p>Vous imaginez dès lors les conséquences d’une prise de contrôle de la
+part d’un utilisateur malveillant sur, par exemple, une application web
+(ou pire une base de données) ayant au moins un volume partagé :
+on peut tout supprimer. Et si mon “répertoire_critique” contient
+d’autres fichiers que ceux exigés par l’application web, je peux aussi
+les modifier et mettre en péril, dans le pire des cas, <strong>l’ensemble
+de mon système hôte</strong> (pas génial si vous êtes en prod…).</p>
+<p>L’idéal serait d’avoir un système permettant de cloisonner
+ces utilisateurs dans le conteneur afin que, même si je suis root à
+l’intérieur du conteneur (et que je puisse donc faire tout ce que bon me semble),
+je ne puisse pas mettre en danger le système hôte.</p>
+<p>De la même façon, même si j’utilise un utilisateur custom dans mon conteneur,
+je voudrais ne pas correspondre à un user random sur le système hôte
+(même si dans les faits, pour éviter que jenkins corresponde à jclegras,
+on fait en sorte d’attribuer des uid et des gid plus élevés afin de faire
+correspondre jenkins au “vrai” user jenkins sur l’hôte créé pour l’occasion).</p>
+<p>Cependant, et vous vous en doutez, il faut aller bidouiller les différents
+Dockerfiles de toutes ces images officielles et procéder nous-même aux modifications qui vont bien,
+tout en répercutant sur le système hôte, et en espérant que mon user
+jenkins ne se voit pas, un beau jour, attribuer des privilèges qu’il ne mérite pas
+(tiens, pourquoi jenkins est dans les sudoers d’un seul coup ?)</p>
+<h2 id="le-user-namespace-dans-docker">Le user namespace dans Docker</h2>
+<p>Bref, c’est ici que le user namespace finalement intégré au Docker engine
+(bien que présent depuis quelque temps dans le noyau linux) arrive à la rescousse.</p>
+<p>Succinctement, cette feature permet de mapper (dynamiquement) mes users comme suit :</p>
+<pre><code>root -&gt; un user_non_privilégié
+jenkins -&gt; un autre_user_non_privilégié ...
+</code></pre><p>En pratique, voici comment le mettre en application : <a href="https://docs.docker.com/engine/security/userns-remap/">https://docs.docker.com/engine/security/userns-remap/</a></p>
+<p>Je ne sais pas si c’est très clair, mais essayons de “singer” ce tuto en partant d’un besoin réel :</p>
+<ul>
+<li>Je souhaite que tous mes conteneurs s’exécutant sous root soient mappés sur le user et le groupe <em>dockremap</em> ;</li>
+<li>Je souhaite également que les conteneurs utilisant un utilisateur personnalisé d’UID 1000
+et appartenant à un groupe de GID 1000 soient mappés sur l’utilisateur et le groupe <em>dockremap-user</em> ;</li>
+<li>Finalement, je souhaite que les users/groupes dockremap et dockremap-user possèdent le moins de droits possible.</li>
+</ul>
+<p>Commençons par l’étape de création des utilisateurs et des groupes :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">groupadd -g <span style="color:#ae81ff">500000</span> dockremap <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> groupadd -g <span style="color:#ae81ff">501000</span> dockremap-user <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> useradd -u <span style="color:#ae81ff">500000</span> -g dockremap -s /bin/false dockremap <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> useradd -u <span style="color:#ae81ff">501000</span> -g dockremap-user -s /bin/false dockremap-user</code></pre></div>
+<p>Ensuite, ajoutons une liste d’utilisateurs “subalternes” et une liste
+de groupes “subalternes” en utilisant comme point de référence, resp.,
+l’utilisateur et le groupe dockremap :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#34;dockremap:500000:65536&#34;</span> &gt;&gt; /etc/subuid <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> echo <span style="color:#e6db74">&#34;dockremap:500000:65536&#34;</span> &gt;&gt; /etc/subgid</code></pre></div>
+<p>Finalement, ajoutons l’option magique <strong>userns-remap</strong> pour activer le user namespace dans les conteneurs
+(passons par le fichier de conf du démon docker pour l’occasion) :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{ <span style="color:#f92672">&#34;userns-remap&#34;</span>: <span style="color:#e6db74">&#34;default&#34;</span> }</code></pre></div>
+<p>On remarquera que default est un alias de <em>dockremap</em> :
+en fait, quand on met <em>default</em>, le démon docker crée (si ce n’est pas déjà fait),
+un utilisateur et un groupe dockremap (avec un “numerical subordinate user/group ID”
+positionné à un offset correspondant à ce qui était déjà présent dans les fichiers
+<em>/etc/subuid</em> et <em>/etc/subgid</em> lors de la création).</p>
+<p>On aurait donc pu se passer des étapes précédentes,
+mais on y gagne au moins deux choses : nous avons choisi nos propres ID (500000 dans les deux cas) et on sait le faire manuellement.</p>
+<p>Pour finir, redémarrons le démon docker :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl daemon-reload <span style="color:#f92672">&amp;&amp;</span> systemctl restart docker</code></pre></div>
+<p>Mission accomplie, nos users sont bien mappés comme nous le voulions !</p>
+<p>En fait, en s’appuyant sur les utilisateur et groupe de référence dockremap
+fixés tout deux à 500000 et sur la configuration des “subordinate files“ (les <em>/etc/sub*</em>),
+le mapping sera comme suit:</p>
+<table>
+<thead>
+<tr>
+<th>ID machine hôte |</th>
+<th align="left">ID conteneur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>500000</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td>501000</td>
+<td align="left">1000</td>
+</tr>
+<tr>
+<td>&hellip;</td>
+<td align="left">&hellip;</td>
+</tr>
+<tr>
+<td>565536</td>
+<td align="left">65536</td>
+</tr>
+</tbody>
+</table>
+<p>On peut donc dès lors se contenter d’utiliser root dans tous nos conteneurs
+puisque ce dernier sera automatiquement converti en dockremap sur l’hôte,
+tout en gardant les avantages d’être root, et donc tout puissant, à l’intérieur de nos conteneurs.</p>
+<h2 id="bonus">Bonus</h2>
+<p>Cette section est créée en guise d’avertissement.</p>
+<p>Avant, lorsque nous étions root dans nos conteneurs, on pouvait monter très simplement nos volumes partagés
+(j’entends par là : entre le système hôte et le conteneur cible) :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -v /mon_repertoire:/mon_repertoire -d <span style="color:#f92672">[</span>mon_image<span style="color:#f92672">]</span></code></pre></div>
+<p>Et je pouvais faire ce que je voulais sur les fichiers contenus dans
+<strong>mon_repertoire</strong> (les modifier, les supprimer…).</p>
+<p>En effet, rappelez-vous, root du conteneur était mappé sur root de l’hôte
+et par conséquent, il avait tous les droits.</p>
+<p>Comment faire dès lors pour pouvoir modifier les fichiers contenus dans
+le répertoire lorsque j’active le user namespace et que mon user root est mappé sur dockremap ?</p>
+<p>C&rsquo;est très simple, il vous faudra attribuer les droits qui vont bien aux fichiers en question :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R dockremap:dockremap /mon_repertoire/</code></pre></div>
+<p>Voici une démo qui montre que ça fonctionne pas trop mal :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ls -l test_docker/ 
+
+-rw-r--r-- <span style="color:#ae81ff">1</span> dockremap dockremap <span style="color:#ae81ff">0</span> sept. <span style="color:#ae81ff">4</span> 01:01 dummy_dockremap 
+-rw-rw-r-- <span style="color:#ae81ff">1</span> dockremap-user dockremap-user <span style="color:#ae81ff">0</span> sept. <span style="color:#ae81ff">4</span> 01:00 dummy_dockremap-user 
+-rw-rw-r-- <span style="color:#ae81ff">1</span> jclegras jclegras <span style="color:#ae81ff">12</span> sept. <span style="color:#ae81ff">3</span> 16:29 dummy_jclegras 
+-rw-rw-r-- <span style="color:#ae81ff">1</span> jenkins jenkins <span style="color:#ae81ff">12</span> sept. <span style="color:#ae81ff">2</span> 00:59 dummy_jenkins 
+-rw-rw-r-- <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">0</span> sept. <span style="color:#ae81ff">2</span> 00:28 dummy_root </code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run -v <span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>/test_docker:/var/jenkins_home/test_docker -d jenkins 
+070003aa39b81a53ffe6b01f44986922058f1585d8da285f981cf3b673b9d734 
+
+$ docker exec -it <span style="color:#ae81ff">070</span> bash 
+
+jenkins@070003aa39b8:/$ ls -l /var/jenkins_home/test_docker/ 
+-rw-r--r-- <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">0</span> Sep <span style="color:#ae81ff">3</span> 23:01 dummy_dockremap 
+-rw-rw-r-- <span style="color:#ae81ff">1</span> jenkins jenkins <span style="color:#ae81ff">0</span> Sep <span style="color:#ae81ff">3</span> 23:00 dummy_dockremap-user 
+-rw-rw-r-- <span style="color:#ae81ff">1</span> nobody nogroup <span style="color:#ae81ff">12</span> Sep <span style="color:#ae81ff">3</span> 14:29 dummy_jclegras 
+-rw-rw-r-- <span style="color:#ae81ff">1</span> nobody nogroup <span style="color:#ae81ff">12</span> Sep <span style="color:#ae81ff">1</span> 22:59 dummy_jenkins 
+-rw-rw-r-- <span style="color:#ae81ff">1</span> nobody nogroup <span style="color:#ae81ff">0</span> Sep <span style="color:#ae81ff">1</span> 22:28 dummy_root 
+
+jenkins@070003aa39b8:/$ whoami 
+jenkins 
+
+jenkins@070003aa39b8:/$ id 
+jenkins uid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>jenkins<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>jenkins<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>jenkins<span style="color:#f92672">)</span> 
+
+jenkins@070003aa39b8:/$ echo <span style="color:#e6db74">&#34;hello world&#34;</span>&gt;&gt; /var/jenkins_home/test_docker/dummy_dockremap 
+bash: /var/jenkins_home/test_docker/dummy_dockremap: Permission denied 
+
+jenkins@070003aa39b8:/$ echo <span style="color:#e6db74">&#34;hello world&#34;</span> &gt;&gt; /var/jenkins_home/test_docker/dummy_dockremap-user 
+
+jenkins@070003aa39b8:/$ echo <span style="color:#e6db74">&#34;hello world&#34;</span> &gt;&gt; /var/jenkins_home/test_docker/dummy_dockremap-jclegras 
+bash: /var/jenkins_home/test_docker/dummy_dockremap-jclegras: Permission denied 
+
+jenkins@070003aa39b8:/$ echo <span style="color:#e6db74">&#34;hello world&#34;</span> &gt;&gt; /var/jenkins_home/test_docker/dummy_dockremap-jenkins 
+bash: /var/jenkins_home/test_docker/dummy_dockremap-jenkins: Permission denied 
+
+jenkins@070003aa39b8:/$ echo <span style="color:#e6db74">&#34;hello world&#34;</span> &gt;&gt; /var/jenkins_home/test_docker/dummy_dockremap-root 
+bash: /var/jenkins_home/test_docker/dummy_dockremap-root: Permission denied</code></pre></div>
+<p>En utilisant root dans mon conteneur :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker exec -u root -it <span style="color:#ae81ff">070</span> bash 
+
+root@070003aa39b8:/# ls -l 
+/var/jenkins_home/test_docker/ 
+-rw-r--r-- <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">0</span> Sep <span style="color:#ae81ff">3</span> 23:01 dummy_dockremap 
+-rw-rw-r-- <span style="color:#ae81ff">1</span> jenkins jenkins <span style="color:#ae81ff">12</span> Sep <span style="color:#ae81ff">3</span> 23:07 dummy_dockremap-user 
+-rw-rw-r-- <span style="color:#ae81ff">1</span> nobody nogroup <span style="color:#ae81ff">12</span> Sep <span style="color:#ae81ff">3</span> 14:29 dummy_jclegras 
+-rw-rw-r-- <span style="color:#ae81ff">1</span> nobody nogroup <span style="color:#ae81ff">12</span> Sep <span style="color:#ae81ff">1</span> 22:59 dummy_jenkins 
+-rw-rw-r-- <span style="color:#ae81ff">1</span> nobody nogroup <span style="color:#ae81ff">0</span> Sep <span style="color:#ae81ff">1</span> 22:28 dummy_root 
+
+root@070003aa39b8:/# id <span style="color:#e6db74">`</span>whoami<span style="color:#e6db74">`</span> 
+uid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> 
+
+root@070003aa39b8:/# echo <span style="color:#e6db74">&#34;hello world&#34;</span> &gt;&gt; /var/jenkins_home/test_docker/dummy_dockremap 
+
+root@070003aa39b8:/# echo <span style="color:#e6db74">&#34;hello world&#34;</span> &gt;&gt; /var/jenkins_home/test_docker/dummy_dockremap-user 
+
+root@070003aa39b8:/# echo <span style="color:#e6db74">&#34;hello world&#34;</span> &gt;&gt; /var/jenkins_home/test_docker/dummy_jclegras 
+bash: /var/jenkins_home/test_docker/dummy_jclegras: Permission denied 
+
+root@070003aa39b8:/# echo <span style="color:#e6db74">&#34;hello world&#34;</span> &gt;&gt; /var/jenkins_home/test_docker/dummy_jenkins 
+bash: /var/jenkins_home/test_docker/dummy_root: Permission denied</code></pre></div>
+<p>Et enfin, en regardant la table des processus (avec le conteneur lancé avec le user par défaut, jenkins) :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ps aux | grep dock 
+dockrem+ <span style="color:#ae81ff">16807</span> 0.0 0.0 <span style="color:#ae81ff">1112</span> <span style="color:#ae81ff">4</span> ? Ss 01:03 0:00 /bin/tini -- /usr/local/bin/jenkins.sh 
+dockrem+ <span style="color:#ae81ff">16825</span> 2.3 5.2 <span style="color:#ae81ff">3073244</span> <span style="color:#ae81ff">213492</span> ? Sl 01:03 0:17 java -jar /usr/share/jenkins/jenkins.war 
+
+$ ps -U dockremap-user 
+PID TTY TIME     CMD 
+<span style="color:#ae81ff">16807</span> ? 00:00:00 tini
+<span style="color:#ae81ff">16825</span> ? 00:00:17 java</code></pre></div>
+<h2 id="ressources">Ressources</h2>
+<p>Le user namespace en long, en large et en travers :</p>
+<ul>
+<li><a href="https://docs.docker.com/engine/security/userns-remap">Configuration du user namespace sous Docker</a></li>
+<li><a href="https://lwn.net/Articles/532593/">Article LWN.net sur le user namespace</a></li>
+<li><a href="https://docs.docker.com/engine/security/userns-remap/#user-namespace-known-limitations">Restrictions inhérentes à l’activation du user namespace</a></li>
+</ul>
+<p>Les namespaces du kernel linux, fondations des conteneurs (mais pas que) :</p>
+<ul>
+<li><a href="https://www.man7.org/linux/man-pages/man7/user_namespaces.7.html">Les namespaces en général sous Linux</a></li>
+<li><a href="https://www.toptal.com/linux/separation-anxiety-isolating-your-system-with-linux-namespaces">Un autre article sur les namespaces du kernel linux</a></li>
+</ul>
+<p>Bonnes pratiques Docker :</p>
+<ul>
+<li><a href="https://w3blog.fr/2016/02/23/docker-securite-10-bonnes-pratiques/">10 bonnes pratiques</a></li>
+</ul>
+<p>J&rsquo;espère que ce billet vous a plu et qu&rsquo;il vous donne envie de creuser
+le sujet plus en profondeur (Docker, les namespaces linux, les cgroups, les fondations des conteneurs&hellip;).</p>
+<p>Merci pour votre lecture.</p>
+
+    </div>
+    <div class="post-footer">
+      <div class="info">
+        
+        
+      </div>
+    </div>
+
+    
+</div>
+
+
+                </div>
+            </div>
+        </div>
+</body>
+
+
+
+<script type="text/javascript" src="https://jclegras.github.io/js/jquery.min.86b1e8f819ee2d9099a783e50b49dff24282545fc40773861f9126b921532e4c.js" integrity="sha256-hrHo&#43;BnuLZCZp4PlC0nf8kKCVF/EB3OGH5EmuSFTLkw=" crossorigin="anonymous"></script>
+
+
+
+
+<script type="text/javascript" src="https://jclegras.github.io/js/bundle.min.0f9c74cb78f13d1f15f33daff4037c70354f98acfbb97a6f61708966675c3cae.js" integrity="sha256-D5x0y3jxPR8V8z2v9AN8cDVPmKz7uXpvYXCJZmdcPK4=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://jclegras.github.io/js/medium-zoom.min.92f21c856129f84aeb719459b3e6ac621a3032fd7b180a18c04e1d12083f8aba.js" integrity="sha256-kvIchWEp&#43;ErrcZRZs&#43;asYhowMv17GAoYwE4dEgg/iro=" crossorigin="anonymous"></script></html></body>
+
+</html>
