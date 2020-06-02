@@ -6,7 +6,7 @@
     <description>Recent content in Posts on Jean-Charles Legras&#39; blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Jun 2020 13:35:49 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://jclegras.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Le user namespace dans Docker</title>
       <link>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</link>
-      <pubDate>Mon, 01 Jun 2020 13:35:49 +0200</pubDate>
+      <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
       
       <guid>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</guid>
       <description>Avant l&amp;rsquo;arrivée du user namespace dans Docker Lancement d&amp;rsquo;un conteneur Jenkins</description>

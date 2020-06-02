@@ -8,26 +8,47 @@
   </url>
   
   <url>
+    <loc>https://jclegras.github.io/tags/devops/</loc>
+    <lastmod>2020-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jclegras.github.io/tags/docker/</loc>
+    <lastmod>2020-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jclegras.github.io/</loc>
-    <lastmod>2020-06-01T13:35:49+02:00</lastmod>
+    <lastmod>2020-06-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</loc>
-    <lastmod>2020-06-01T13:35:49+02:00</lastmod>
+    <lastmod>2020-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jclegras.github.io/tags/linux/</loc>
+    <lastmod>2020-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jclegras.github.io/tags/namespace/</loc>
+    <lastmod>2020-06-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://jclegras.github.io/posts/</loc>
-    <lastmod>2020-06-01T13:35:49+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jclegras.github.io/categories/</loc>
+    <lastmod>2020-06-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://jclegras.github.io/tags/</loc>
+    <lastmod>2020-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jclegras.github.io/categories/</loc>
   </url>
   
 </urlset>
