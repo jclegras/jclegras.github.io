@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light"><head>
+    <title> Jean-Charles Legras | Jointure de JSON avec Python et pandas </title>
+    <meta charset="utf-8"><meta name="generator" content="Hugo 0.72.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="description" content="Call me JC">
+    
+    <link rel="stylesheet" href="https://jclegras.github.io/css/style.min.67cd718c0a3c8009c771494d381fb7128246a454bd0518fed97cb65d257db948.css" integrity="sha256-Z81xjAo8gAnHcUlNOB&#43;3EoJGpFS9BRj&#43;2Xy2XSV9uUg=" crossorigin="anonymous" type="text/css">
+    
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    
+    <link rel="shortcut icon" href="https://jclegras.github.io/favicons/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://jclegras.github.io/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://jclegras.github.io/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://jclegras.github.io/favicons/favicon-16x16.png">
+    <link rel="canonical" href="https://jclegras.github.io/posts/pandas-merge-json/">
+    
+    
+    <script type="text/javascript" src="https://jclegras.github.io/js/anatole-header.min.c275265a259296f3dd50e8236a77fcbcadb1dbb9597d3045c675dcc2c7c58a93.js" integrity="sha256-wnUmWiWSlvPdUOgjanf8vK2x27lZfTBFxnXcwsfFipM=" crossorigin="anonymous"></script>
+</head><body><div class="sidebar animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src="https://jclegras.github.io/profile.webp" alt="profile picture">
+        <h3 title=""><a href="/">I&#39;m Jean-Charles Legras</a></h3>
+        <div class="description">
+          <p>Call me JC</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links">
+        
+        <li>
+        <a href="https://www.linkedin.com/in/jean-charles-legras-708b39a4/" rel="me" aria-label="Linkedin">
+          <i class="fa fa-2x fa-linkedin" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+        <li>
+        <a href="https://github.com/jclegras" rel="me" aria-label="GitHub">
+          <i class="fa fa-2x fa-github" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+        <li>
+        <a href="mailto:jeancharles.legras@gmail.com" rel="me" aria-label="e-mail">
+          <i class="fa fa-2x fa-envelope" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+    </ul>
+    <div class="footer">
+        <div class="by_farbox">&copy; Jean-Charles Legras 2020 </div>
+      </div>
+    </div>
+</div><div class="main">
+            <div class="page-top animated fadeInDown">
+    <ul class="nav">
+        
+        
+        
+        <li><a  href="/" title="">Home</a></li>
+        
+        
+        <li><a  href="/posts/" title="">Posts</a></li>
+        
+        
+        <li><a  href="/about/" title="">About</a></li>
+        
+    </ul>
+    <div class="themeswitcher">
+        <a class="theme-switch" title="Switch Theme">
+            <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+
+            <div class="autopagerize_page_element">
+                <div class="content">
+<div class="post animated fadeInDown">
+    <div class="post-content">
+
+      <div class="post-title">
+        <h3>Jointure de JSON avec Python et pandas
+        </h3>
+        
+        </div>
+
+    <h2 id="merge-dobjets-json-avec-python-et-pandas">Merge d&rsquo;objets JSON avec Python et Pandas</h2>
+<h4 id="besoin">Besoin</h4>
+<p>Nous avons une API avec quelques paths comme :</p>
+<pre><code>/list/modules # liste tous les modules
+/list/teams # liste toutes les équipes par pays
+/details/{module_id} # description d'un module en particulier
+</code></pre><p>Nous souhaitons obtenir la description complète de chaque module retourné par la liste des modules (premier path).</p>
+<p>Nous voulons réduire au maximum le nombre d&rsquo;appels réseau.</p>
+<h4 id="solution-classique">Solution classique</h4>
+<p>En multipliant les appels réseau, nous pouvons appliquer l&rsquo;algorithme suivant :</p>
+<pre><code>modules := data(/list/modules)
+Pour chaque module dans modules:
+  afficher(data(/details/module.id))
+</code></pre><h4 id="solution-avec-jointure-des-listes-json">Solution avec jointure des listes JSON</h4>
+<pre><code>modules := data(/list/modules)
+teams := data(/list/teams)
+afficher(jointure_gauche(modules, teams))
+</code></pre><p>On réduit ici le nombre d&rsquo;appels réseau même si dans les deux cas, une pagination est toujours faisable, puis on fusionne les deux listes obtenues.
+Bien sûr, la fusion est possible ici puisqu&rsquo;on imagine que les deux listes partagent une clé, une colonne commune, de même nom ou non.</p>
+<h4 id="solution-avec-python-et-pandas">Solution avec Python et Pandas</h4>
+<p><strong>modules.json</strong>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;results&#34;</span>: [
+    {
+      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1</span>,
+      <span style="color:#f92672">&#34;module&#34;</span>: <span style="color:#e6db74">&#34;docker&#34;</span>
+    },
+    {
+      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">2</span>,
+      <span style="color:#f92672">&#34;module&#34;</span>: <span style="color:#e6db74">&#34;kubernetes&#34;</span>
+    },
+    {
+      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">3</span>,
+      <span style="color:#f92672">&#34;module&#34;</span>: <span style="color:#e6db74">&#34;nodeJS&#34;</span>
+    }
+  ]
+}</code></pre></div></p>
+<p><strong>teams.json</strong>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;results&#34;</span>: [
+    {
+      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1</span>,
+      <span style="color:#f92672">&#34;team&#34;</span>: <span style="color:#e6db74">&#34;DevOps&#34;</span>,
+      <span style="color:#f92672">&#34;countryCode&#34;</span>: <span style="color:#e6db74">&#34;FR&#34;</span>
+    },
+    {
+      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">2</span>,
+      <span style="color:#f92672">&#34;team&#34;</span>: <span style="color:#e6db74">&#34;DevOps&#34;</span>,
+      <span style="color:#f92672">&#34;countryCode&#34;</span>: <span style="color:#e6db74">&#34;FR&#34;</span>
+    },
+    {
+      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">3</span>,
+      <span style="color:#f92672">&#34;team&#34;</span>: <span style="color:#e6db74">&#34;B2C&#34;</span>,
+      <span style="color:#f92672">&#34;countryCode&#34;</span>: <span style="color:#e6db74">&#34;UK&#34;</span>
+    }
+  ]
+}</code></pre></div></p>
+<p><strong>main.py</strong>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> json
+<span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
+
+df1 <span style="color:#f92672">=</span> None
+df2 <span style="color:#f92672">=</span> None
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;./modules.json&#39;</span>) <span style="color:#66d9ef">as</span> json_file:
+    data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>load(json_file)
+    df1 <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>json_normalize(data, <span style="color:#e6db74">&#34;results&#34;</span>)
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;./teams.json&#39;</span>) <span style="color:#66d9ef">as</span> json_file:
+    data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>load(json_file)
+    df2 <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>json_normalize(data, <span style="color:#e6db74">&#34;results&#34;</span>)
+
+df1AndDf2 <span style="color:#f92672">=</span> df1<span style="color:#f92672">.</span>merge(df2, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;left&#34;</span>, on<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;id&#34;</span>)
+
+<span style="color:#66d9ef">print</span>(df1AndDf2<span style="color:#f92672">.</span>to_json(orient<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;records&#34;</span>))</code></pre></div></p>
+<p><strong>Résultat</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">[
+  {
+    <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1</span>,
+    <span style="color:#f92672">&#34;module&#34;</span>: <span style="color:#e6db74">&#34;docker&#34;</span>,
+    <span style="color:#f92672">&#34;team&#34;</span>: <span style="color:#e6db74">&#34;DevOps&#34;</span>,
+    <span style="color:#f92672">&#34;countryCode&#34;</span>: <span style="color:#e6db74">&#34;FR&#34;</span>
+  },
+  {
+    <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">2</span>,
+    <span style="color:#f92672">&#34;module&#34;</span>: <span style="color:#e6db74">&#34;kubernetes&#34;</span>,
+    <span style="color:#f92672">&#34;team&#34;</span>: <span style="color:#e6db74">&#34;DevOps&#34;</span>,
+    <span style="color:#f92672">&#34;countryCode&#34;</span>: <span style="color:#e6db74">&#34;FR&#34;</span>
+  },
+  {
+    <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">3</span>,
+    <span style="color:#f92672">&#34;module&#34;</span>: <span style="color:#e6db74">&#34;nodeJS&#34;</span>,
+    <span style="color:#f92672">&#34;team&#34;</span>: <span style="color:#e6db74">&#34;B2C&#34;</span>,
+    <span style="color:#f92672">&#34;countryCode&#34;</span>: <span style="color:#e6db74">&#34;UK&#34;</span>
+  }
+]</code></pre></div>
+<h2 id="résumé">Résumé</h2>
+<p>C&rsquo;est un exemple inutile mais il permet de voir comment on peut fusionner deux listes json, objet par objet, en fonction d&rsquo;un pivot, d&rsquo;une clé.
+Nous ne sommes pas contraints aux left joins, Pandas permet énormément de jointures calquées sur le modèle SQL</p>
+<h2 id="ressources">Ressources</h2>
+<ul>
+<li><a href="https://pandas.pydata.org/">Pandas</a></li>
+<li><a href="https://pandas.pydata.org/docs/getting_started/intro_tutorials/08_combine_dataframes.html">Merge de data frames</a></li>
+<li><a href="https://pandas.pydata.org/docs/user_guide/merging.html#merging-join">Types de jointures supportés</a></li>
+<li><a href="https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_sql.html#compare-with-sql-join">Comparaison avec SQL</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      <div class="info">
+        
+        
+    <span class="separator"><a class="tag" href="/tags/pandas/">pandas</a><a class="tag" href="/tags/python/">python</a><a class="tag" href="/tags/json/">json</a></span>
+
+      </div>
+    </div>
+
+    
+</div>
+
+
+                </div>
+            </div>
+        </div>
+</body>
+
+
+
+<script type="text/javascript" src="https://jclegras.github.io/js/jquery.min.86b1e8f819ee2d9099a783e50b49dff24282545fc40773861f9126b921532e4c.js" integrity="sha256-hrHo&#43;BnuLZCZp4PlC0nf8kKCVF/EB3OGH5EmuSFTLkw=" crossorigin="anonymous"></script>
+
+
+
+
+<script type="text/javascript" src="https://jclegras.github.io/js/bundle.min.0f9c74cb78f13d1f15f33daff4037c70354f98acfbb97a6f61708966675c3cae.js" integrity="sha256-D5x0y3jxPR8V8z2v9AN8cDVPmKz7uXpvYXCJZmdcPK4=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://jclegras.github.io/js/medium-zoom.min.92f21c856129f84aeb719459b3e6ac621a3032fd7b180a18c04e1d12083f8aba.js" integrity="sha256-kvIchWEp&#43;ErrcZRZs&#43;asYhowMv17GAoYwE4dEgg/iro=" crossorigin="anonymous"></script></html></body>
+
+</html>
