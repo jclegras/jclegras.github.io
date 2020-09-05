@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light"><head>
+    <title> Jean-Charles Legras | Permissions spéciales </title>
+    <meta charset="utf-8"><meta name="generator" content="Hugo 0.72.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="description" content="Call me JC">
+    
+    <link rel="stylesheet" href="https://jclegras.github.io/css/style.min.67cd718c0a3c8009c771494d381fb7128246a454bd0518fed97cb65d257db948.css" integrity="sha256-Z81xjAo8gAnHcUlNOB&#43;3EoJGpFS9BRj&#43;2Xy2XSV9uUg=" crossorigin="anonymous" type="text/css">
+    
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    
+    <link rel="shortcut icon" href="https://jclegras.github.io/favicons/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://jclegras.github.io/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://jclegras.github.io/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://jclegras.github.io/favicons/favicon-16x16.png">
+    <link rel="canonical" href="https://jclegras.github.io/posts/special-permissions/">
+    
+    
+    <script type="text/javascript" src="https://jclegras.github.io/js/anatole-header.min.c275265a259296f3dd50e8236a77fcbcadb1dbb9597d3045c675dcc2c7c58a93.js" integrity="sha256-wnUmWiWSlvPdUOgjanf8vK2x27lZfTBFxnXcwsfFipM=" crossorigin="anonymous"></script>
+</head><body><div class="sidebar animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src="https://jclegras.github.io/profile.webp" alt="profile picture">
+        <h3 title=""><a href="/">I&#39;m Jean-Charles Legras</a></h3>
+        <div class="description">
+          <p>Call me JC</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links">
+        
+        <li>
+        <a href="https://www.linkedin.com/in/jean-charles-legras-708b39a4/" rel="me" aria-label="Linkedin">
+          <i class="fa fa-2x fa-linkedin" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+        <li>
+        <a href="https://github.com/jclegras" rel="me" aria-label="GitHub">
+          <i class="fa fa-2x fa-github" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+        <li>
+        <a href="mailto:jeancharles.legras@gmail.com" rel="me" aria-label="e-mail">
+          <i class="fa fa-2x fa-envelope" aria-hidden="true"></i>
+        </a>          
+        </li>
+
+        
+    </ul>
+    <div class="footer">
+        <div class="by_farbox">&copy; Jean-Charles Legras 2020 </div>
+      </div>
+    </div>
+</div><div class="main">
+            <div class="page-top animated fadeInDown">
+    <ul class="nav">
+        
+        
+        
+        <li><a  href="/" title="">Home</a></li>
+        
+        
+        <li><a  href="/posts/" title="">Posts</a></li>
+        
+        
+        <li><a  href="/about/" title="">About</a></li>
+        
+    </ul>
+    <div class="themeswitcher">
+        <a class="theme-switch" title="Switch Theme">
+            <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+
+            <div class="autopagerize_page_element">
+                <div class="content">
+<div class="post animated fadeInDown">
+    <div class="post-content">
+
+      <div class="post-title">
+        <h3>Permissions spéciales
+        </h3>
+        
+        </div>
+
+    <h2 id="les-permissions-spéciales-sous-linux">Les permissions spéciales sous Linux</h2>
+<h3 id="permissions-spéciales-sur-un-fichier">Permissions spéciales sur un fichier</h3>
+<h4 id="setuidsetgid">setuid/setgid</h4>
+<p><strong>Besoin</strong> : exécuter un fichier exécutable avec les privilèges du propriétaire/groupe resp. du fichier</p>
+<p><strong>main.go</strong>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;os&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Real UID\t= %d\n&#34;</span>, <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getuid</span>())
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Effective UID\t= %d\n&#34;</span>, <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Geteuid</span>())
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Real GID\t= %d\n&#34;</span>, <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getgid</span>())
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Effective GID\t= %d\n&#34;</span>, <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getegid</span>())
+}</code></pre></div></p>
+<ul>
+<li>Le <em>Real UID/GID</em> correspond resp. à l&rsquo;UID/GID de l&rsquo;utilisateur courant</li>
+<li>Le <em>Effective UID/GID</em> correspond resp. à l&rsquo;UID/GID adopté</li>
+<li>L&rsquo;octet de plus haut niveau est setté à 2 pour setgid et 4 pour setuid</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ id
+uid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>jclegras<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>jclegras<span style="color:#f92672">)</span>
+
+$ getent group docker
+docker:x:999:jclegras
+
+$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> main
+<span style="color:#ae81ff">775</span> -rwxrwxr-x root:docker
+
+$ ./main
+Real UID        <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+Effective UID   <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+Real GID        <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+Effective GID   <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+<span style="color:#75715e"># Par défaut, les effective UID/GID sont fixées à mes UID/GID utilisateur</span>
+
+$ sudo chmod u+s main <span style="color:#f92672">&amp;&amp;</span> stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> main
+<span style="color:#ae81ff">4775</span> -rwsrwxr-x root:docker
+
+$ ./main
+Real UID        <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+Effective UID   <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+Real GID        <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+Effective GID   <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+<span style="color:#75715e"># Avec setuid, l&#39;UID adopté par le processus vaut celui du propriétaire du fichier exécutable</span>
+
+$ sudo chmod g+s main <span style="color:#f92672">&amp;&amp;</span> stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> main
+<span style="color:#ae81ff">6775</span> -rwsrwsr-x root:docker
+
+$ ./main
+Real UID        <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+Effective UID   <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+Real GID        <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+Effective GID   <span style="color:#f92672">=</span> <span style="color:#ae81ff">999</span>
+<span style="color:#75715e"># Avec setgid, le GID adopté par le processus vaut celui du groupe du fichier exécutable</span>
+<span style="color:#75715e"># Le setuid étant encore fixé, l&#39;effective UID vaut toujours celui de root</span></code></pre></div>
+<p>Pour commencer, on constate que lorsque les bits setuid sont marqués, l&rsquo;<em>effective UID</em> est fixé à <em>root</em>, propriétaire du fichier.</p>
+<p>De même, lorsque les bits setgid sont marqués, l&rsquo;<em>effective GID</em> est fixé à <em>docker</em>, groupe du fichier.</p>
+<p>Par ailleurs, les bits setuid (4) et setgid (2) étant marqués, l&rsquo;octet de plus haut niveau vaut bien 4 + 2 = 6.</p>
+<p>Finalement, le processus représentant l&rsquo;exécution du fichier <em>main.go</em> vaut bien jclegras:jclegras (1000:1000) lorsque les permissions
+spéciales ne sont pas fixées du tout.</p>
+<p><strong>Besoin</strong> : lister les fichiers avec setuid qui conduirait à un effective UID égale à root</p>
+<p>Voici un exemple conduit sur le répertoire <em>/bin</em>:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ find /bin -user root -perm -4000 -exec ls -ldb <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
+
+-rwsr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">26696</span> mars   <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> /bin/umount
+-rwsr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">30800</span> août  <span style="color:#ae81ff">11</span>  <span style="color:#ae81ff">2016</span> /bin/fusermount
+-rwsr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">64424</span> juin  <span style="color:#ae81ff">28</span>  <span style="color:#ae81ff">2019</span> /bin/ping
+-rwsr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">43088</span> mars   <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> /bin/mount
+-rwsr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">44664</span> mars  <span style="color:#ae81ff">22</span>  <span style="color:#ae81ff">2019</span> /bin/su</code></pre></div></p>
+<p>On voit bien par exemple que la commande ping impose des privilèges qu&rsquo;un utilisateur courant n&rsquo;est pas censé posséder. Les bits setuid sont donc fixés sur la commande <em>ping</em>.</p>
+<p>En effet, l&rsquo;utilitaire <em>ping</em> doit pouvoir créer des sockets ICMP qui connaissent des restrictions dans les kernels Linux: <a href="http://man7.org/linux/man-pages/man7/icmp.7.html">man pages icmp(7)</a></p>
+<pre><code>   ping_group_range (two integers; default: see below; since Linux
+   2.6.39)
+          Range of the group IDs (minimum and maximum group IDs,
+          inclusive) that are allowed to create ICMP Echo sockets.  The
+          default is &quot;1 0&quot;, which means no group is allowed to create
+          ICMP Echo sockets.
+</code></pre>
+<h3 id="permissions-spéciales-sur-un-répertoire">Permissions spéciales sur un répertoire</h3>
+<h4 id="setgid">setgid</h4>
+<p><strong>Besoin</strong> : je veux partager un répertoire entre plusieurs personnes pour en faire un espace de travail sans avoir à changer mon groupe (GID) primaire</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ mkdir special-directory <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>chown jclegras:docker special-directory/ <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory/
+
+<span style="color:#ae81ff">775</span> drwxrwxr-x jclegras:docker 
+<span style="color:#75715e"># On crée un répertoire en 775 d&#39;UID:GID jclegras:docker</span>
+
+$ touch special-directory/my-file <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory/my-file
+
+<span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:jclegras 
+<span style="color:#75715e"># Le fichier créé a pour GID celui de mon utilisateur courant</span>
+
+$ chmod g+s special-directory/ <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory
+
+<span style="color:#ae81ff">2775</span> drwxrwsr-x jclegras:docker 
+<span style="color:#75715e"># On remarque l&#39;octet de haut niveau fixé à 2 (setgid)</span>
+
+$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory/my-file
+
+<span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:jclegras 
+<span style="color:#75715e"># Les permissions du fichier existant ne bougent pas</span>
+
+$ touch special-directory/my-file2 <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory/my-file2
+
+<span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:docker 
+<span style="color:#75715e"># Le nouveau fichier créé obtient le GID du répertoire dans lequel il est créé</span>
+
+$ touch my-file3 <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> my-file3
+
+<span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:jclegras
+
+$ mv -v my-file3 special-directory/ <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory/my-file3
+
+<span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:jclegras
+<span style="color:#75715e"># Les permissions d&#39;un fichier existant déplacé dans le répertoire ne changent pas</span>
+
+$ mkdir special-directory/subdirectory <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory/subdirectory/
+
+<span style="color:#ae81ff">2775</span> drwxrwsr-x jclegras:docker
+<span style="color:#75715e"># Le répertoire « hérite » de la permission setgid</span></code></pre></div>
+<p>On observe avec cette suite de commandes ce qui suit :</p>
+<ul>
+<li>Par défaut, un fichier créé depuis un répertoire « classique » (sans setgid par exemple) possède un GID égale au GID primaire de l&rsquo;utilisateur qui l&rsquo;a créé ;</li>
+<li>Lorsqu&rsquo;on set les bits setgid sur le répertoire, le changement de propriétaire ne s&rsquo;applique pas aux fichiers existants dans ce répertoire ;</li>
+<li>Un fichier créé dans un répertoire avec setgid possède un GID égale au GID du répertoire ;</li>
+<li>L&rsquo;« héritage » du groupe à un fichier ne s&rsquo;applique qu&rsquo;à la création du fichier, déplacer un fichier dans un répertoire avec setgid ne change pas les permissions dudit fichier ;</li>
+<li>Tout répertoire créé dans un répertoire avec un setgid fixé possède également le setgid hérité de son répertoire parent.</li>
+</ul>
+<p><strong>Note</strong>: <em>setuid</em> est ignoré sur un répertoire sous Linux.</p>
+<h4 id="sticky-bit-plus-précisément-ici--restricted-deletion-flag">Sticky bit (plus précisément ici : restricted deletion flag)</h4>
+<p><strong>Besoin</strong> : protéger les fichiers présents dans un répertoire à son seul propriétaire seulement (suppression/renommage)</p>
+<p><strong>Rappel</strong> : dès lors qu&rsquo;on possède les droits en écriture sur un répertoire, on peut supprimer les fichiers qu&rsquo;il contient,
+qu&rsquo;on possède les droits en écriture sur le fichier ou non</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> mydir
+
+<span style="color:#ae81ff">777</span> drwxrwxrwx jclegras:jclegras mydir
+<span style="color:#75715e"># Perm. en 777, tout le monde peut supprimer les fichiers à l&#39;intérieur</span>
+
+$ chmod o+t mydir <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> mydir
+
+<span style="color:#ae81ff">1777</span> drwxrwxrwt jclegras:jclegras mydir
+<span style="color:#75715e"># Le sticky bit vaut 1</span>
+
+$ touch mydir/myfile <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> mydir/myfile
+
+<span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:jclegras mydir/myfile 
+<span style="color:#75715e"># Pour la suppression, les droits du fichier ne rentrent pas en compte (@ rappel)</span>
+
+$ sudo su jcbis
+
+$ rm -v mydir/myfile
+
+rm: remove write-protected regular empty file <span style="color:#e6db74">&#39;mydir/myfile&#39;</span>? y
+rm: cannot remove <span style="color:#e6db74">&#39;mydir/myfile&#39;</span>: Operation not permitted
+<span style="color:#75715e"># Suppression impossible alors que les droits du répertoire le permettent</span>
+<span style="color:#75715e">#   On a bien par ex o+rwx, donc les &#39;Autres&#39; peuvent supprimer les fichiers</span>
+<span style="color:#75715e">#   C&#39;est bien le sticky bit qui impose une restriction plus forte ici (!)</span>
+
+$ mv -v mydir/myfile .
+mv: cannot move <span style="color:#e6db74">&#39;mydir/myfile&#39;</span> to <span style="color:#e6db74">&#39;./myfile&#39;</span>: Operation not permitted
+<span style="color:#75715e"># Idem pour le renommage de fichier</span></code></pre></div>
+<p>On peut même pousser le vice encore plus loin en settant le sticky bit ET le setgid sur le répertoire :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> mydir
+
+<span style="color:#ae81ff">3777</span> drwxrwsrwt jclegras:jcbis mydir
+<span style="color:#75715e"># Chaque fichier créé aura pour groupe &#39;jcbis&#39;</span>
+<span style="color:#75715e">#  2 pour setgid et 1 pour sticky bit</span>
+
+$ touch mydir/myfile
+
+$ sudo su jcbis
+
+$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> mydir/myfile
+
+<span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:jcbis mydir/myfile
+<span style="color:#75715e"># jcbis appartient au groupe &#39;jcbis&#39;, il pourrait supprimer ce fichier</span>
+
+$ rm -v mydir/myfile
+
+rm: cannot remove <span style="color:#e6db74">&#39;mydir/myfile&#39;</span>: Operation not permitted
+<span style="color:#75715e"># Opération non autorisée par le stick bit (!)</span></code></pre></div>
+<p>Lorsque les setgid et sticky bits sont fixés, le sticky bit s&rsquo;applique toujours.
+Le sticky bit empêche là encore suppression et renommage du fichier.
+Ce flag combiné au setgid, sur un répertoire, donne un fichier en append-only.
+En effet, rien n&rsquo;empêche <em>jcbis</em> de lire et d&rsquo;écrire dans le fichier.</p>
+<p>On peut trouver l&rsquo;application du sticky bit sur le répertoire <em>/tmp</em> par exemple :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> /tmp
+<span style="color:#ae81ff">1777</span> drwxrwxrwt root:root /tmp</code></pre></div>
+<p>On peut rechercher des exemples de répertoire avec sticky bit avec l&rsquo;outil <em>find</em> :
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo find / -user root -perm -1000 -type d -exec ls -ldb <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+drwxrwxrwt <span style="color:#ae81ff">2</span> root root <span style="color:#ae81ff">40</span> Sep  <span style="color:#ae81ff">5</span> 14:23 /var/lib/docker/containers/7e30ae038ba1d1f0e1196ded588a98a309aa380609ccf315e4fbc3adb3be161b/mounts/shm
+drwxrwxrwt <span style="color:#ae81ff">2</span> root root <span style="color:#ae81ff">40</span> Sep  <span style="color:#ae81ff">5</span> 14:23 /var/lib/docker/containers/8839c653425759dd3e81377de3bf799826872c4ba7751dccac44bc1542378831/mounts/shm
+drwxrwxrwt <span style="color:#ae81ff">2</span> root root <span style="color:#ae81ff">40</span> Sep  <span style="color:#ae81ff">5</span> 14:23 /var/lib/docker/containers/b41eae33e85f9d21d597b1d8af79f6b11bcca326d6d5ff60f5e39e6a5f86672b/mounts/shm
+drwxrwxrwt <span style="color:#ae81ff">2</span> root root <span style="color:#ae81ff">40</span> Sep  <span style="color:#ae81ff">5</span> 14:23 /var/lib/docker/containers/1a5313717c13202c1577546b43490775bed7abf411efc5eab8e1a36c6da79f71/mounts/shm
+drwxrwxrwt <span style="color:#ae81ff">2</span> root root <span style="color:#ae81ff">4096</span> Nov <span style="color:#ae81ff">21</span>  <span style="color:#ae81ff">2019</span> /var/lib/docker/overlay2/e44048381a2ad8d9fd682002fc364e7bb5add8f1d1d310a72cf3cc3992f5e398/diff/tmp
+drwxrwxrwt <span style="color:#ae81ff">2</span> root root <span style="color:#ae81ff">4096</span> Feb <span style="color:#ae81ff">26</span>  <span style="color:#ae81ff">2020</span> /var/lib/docker/overlay2/6daa7569532907310395eeba2f7a0e03d220865a94d973e6da91a8020110c6c5/diff/tmp
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span></code></pre></div></p>
+<p>Selon les <a href="https://man7.org/linux/man-pages/man1/chmod.1.html#RESTRICTED_DELETION_FLAG_OR_STICKY_BIT">man pages Linux</a>, on apprend finalement que le terme <em>sticky bit</em> est réservé au bit lorsqu&rsquo;il est positionné sur un fichier.
+Sur les nouveaux systèmes, le sticky bit est ignoré lorsqu&rsquo;il concerne les fichiers.
+Lorsque ce bit est posé sur un répertoire, il se nomme <em>restricted deletion flag</em>. Ce qui est décrit plus haut montre son fonctionnement.</p>
+<h2 id="ressources">Ressources</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Setuid">Setuid - wikipédia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Sticky_bit">Sticky bit - wikipédia</a></li>
+<li><a href="https://docs.oracle.com/cd/E19683-01/816-4883/secfile-69/index.html">Permissions spéciales - doc Oracle</a></li>
+<li><a href="https://linuxconfig.org/how-to-use-special-permissions-the-setuid-setgid-and-sticky-bits">How to use special permissions - linuxconfig.org</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      <div class="info">
+        
+        
+    <span class="separator"><a class="tag" href="/tags/setuid/">setuid</a><a class="tag" href="/tags/setgid/">setgid</a><a class="tag" href="/tags/sticky-bit/">sticky bit</a><a class="tag" href="/tags/special-permissions/">special permissions</a><a class="tag" href="/tags/restricted-deletion-flag/">restricted deletion flag</a></span>
+
+      </div>
+    </div>
+
+    
+</div>
+
+
+                </div>
+            </div>
+        </div>
+</body>
+
+
+
+<script type="text/javascript" src="https://jclegras.github.io/js/jquery.min.86b1e8f819ee2d9099a783e50b49dff24282545fc40773861f9126b921532e4c.js" integrity="sha256-hrHo&#43;BnuLZCZp4PlC0nf8kKCVF/EB3OGH5EmuSFTLkw=" crossorigin="anonymous"></script>
+
+
+
+
+<script type="text/javascript" src="https://jclegras.github.io/js/bundle.min.0f9c74cb78f13d1f15f33daff4037c70354f98acfbb97a6f61708966675c3cae.js" integrity="sha256-D5x0y3jxPR8V8z2v9AN8cDVPmKz7uXpvYXCJZmdcPK4=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://jclegras.github.io/js/medium-zoom.min.92f21c856129f84aeb719459b3e6ac621a3032fd7b180a18c04e1d12083f8aba.js" integrity="sha256-kvIchWEp&#43;ErrcZRZs&#43;asYhowMv17GAoYwE4dEgg/iro=" crossorigin="anonymous"></script></html></body>
+
+</html>

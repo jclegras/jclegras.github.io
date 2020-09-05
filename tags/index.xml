@@ -6,10 +6,55 @@
     <description>Recent content in Tags on Jean-Charles Legras&#39; blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://jclegras.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>restricted deletion flag</title>
+      <link>https://jclegras.github.io/tags/restricted-deletion-flag/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://jclegras.github.io/tags/restricted-deletion-flag/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>setgid</title>
+      <link>https://jclegras.github.io/tags/setgid/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://jclegras.github.io/tags/setgid/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>setuid</title>
+      <link>https://jclegras.github.io/tags/setuid/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://jclegras.github.io/tags/setuid/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>special permissions</title>
+      <link>https://jclegras.github.io/tags/special-permissions/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://jclegras.github.io/tags/special-permissions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sticky bit</title>
+      <link>https://jclegras.github.io/tags/sticky-bit/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://jclegras.github.io/tags/sticky-bit/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>json</title>
