@@ -237,9 +237,9 @@ $ mkdir special-directory/subdirectory <span style="color:#f92672">&amp;&amp;</s
 qu&rsquo;on possède les droits en écriture sur le fichier ou non.</p>
 <p>Si on ne possède pas les droits sur le fichier on aura seulement un prompt d&rsquo;avertissement :</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ mkdir directory <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  chmod <span style="color:#ae81ff">777</span> directory <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  touch directory/root_file <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  sudo chown -R root:root directory/root_file <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  chmod <span style="color:#ae81ff">777</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> my-directory
 
 <span style="color:#ae81ff">777</span> drwxrwxrwx jclegras:jclegras directory/
