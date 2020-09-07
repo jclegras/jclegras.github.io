@@ -88,6 +88,11 @@
         </div>
 
     <h2 id="les-permissions-spéciales-sous-linux">Les permissions spéciales sous Linux</h2>
+<h3 id="résumé">Résumé</h3>
+<p>Je vous présente ici les permissions dites spéciales qu&rsquo;on utilise moins souvent que les permissions standards.</p>
+<p>Pour commencer, nous allons parler <strong>setuid</strong> et <strong>setgid</strong> qu&rsquo;on peut setter sur les fichiers avec un petit programme Golang pour voir les choses.</p>
+<p>Ensuite, nous examinerons le <strong>setgid</strong> mais cette fois-ci sur des répertoires.</p>
+<p>Finalement, on s&rsquo;intéressera au <strong>sticky bit</strong> sur les répertoires.</p>
 <h3 id="permissions-spéciales-sur-un-fichier">Permissions spéciales sur un fichier</h3>
 <h4 id="setuidsetgid">setuid/setgid</h4>
 <p><strong>Besoin</strong> : exécuter un fichier exécutable avec les privilèges du propriétaire/groupe resp. du fichier</p>
@@ -228,7 +233,7 @@ $ mkdir special-directory/subdirectory <span style="color:#f92672">&amp;&amp;</s
 </ul>
 <p><strong>Note</strong>: <em>setuid</em> est ignoré sur un répertoire sous Linux.</p>
 <h4 id="sticky-bit-plus-précisément-ici--restricted-deletion-flag">Sticky bit (plus précisément ici : restricted deletion flag)</h4>
-<p><strong>Besoin</strong> : protéger les fichiers présents dans un répertoire à son seul propriétaire seulement (suppression/renommage)</p>
+<p><strong>Besoin</strong> : protéger les fichiers présents dans un répertoire à son seul propriétaire uniquement (suppression/renommage)</p>
 <p><strong>Rappel</strong> : dès lors qu&rsquo;on possède les droits en écriture sur un répertoire, on peut supprimer les fichiers qu&rsquo;il contient,
 qu&rsquo;on possède les droits en écriture sur le fichier ou non</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> mydir

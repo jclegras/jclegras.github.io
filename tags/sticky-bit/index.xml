@@ -17,7 +17,7 @@
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://jclegras.github.io/posts/special-permissions/</guid>
-      <description>Les permissions spéciales sous Linux Permissions spéciales sur un fichier setuid/setgid Besoin : exécuter un fichier exécutable avec les privilèges du propriétaire/groupe resp.</description>
+      <description>Les permissions spéciales sous Linux Résumé Je vous présente ici les permissions dites spéciales qu&amp;rsquo;on utilise moins souvent que les permissions standards.</description>
     </item>
     
   </channel>
