@@ -233,9 +233,26 @@ $ mkdir special-directory/subdirectory <span style="color:#f92672">&amp;&amp;</s
 </ul>
 <p><strong>Note</strong>: <em>setuid</em> est ignoré sur un répertoire sous Linux.</p>
 <h4 id="sticky-bit-plus-précisément-ici--restricted-deletion-flag">Sticky bit (plus précisément ici : restricted deletion flag)</h4>
-<p><strong>Besoin</strong> : protéger les fichiers présents dans un répertoire à son seul propriétaire uniquement (suppression/renommage)</p>
 <p><strong>Rappel</strong> : dès lors qu&rsquo;on possède les droits en écriture sur un répertoire, on peut supprimer les fichiers qu&rsquo;il contient,
-qu&rsquo;on possède les droits en écriture sur le fichier ou non</p>
+qu&rsquo;on possède les droits en écriture sur le fichier ou non.</p>
+<p>Si on ne possède pas les droits sur le fichier on aura seulement un prompt d&rsquo;avertissement :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ mkdir directory <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  touch directory/root_file <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  sudo chown -R root:root directory/root_file <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  chmod <span style="color:#ae81ff">777</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> my-directory
+
+<span style="color:#ae81ff">777</span> drwxrwxrwx jclegras:jclegras directory/
+
+$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> directory/root_file
+
+<span style="color:#ae81ff">664</span> -rw-rw-r-- root:root directory/root_file
+
+$ rm -v directory/root_file
+
+rm: remove write-protected regular empty file <span style="color:#e6db74">&#39;directory/root_file&#39;</span>? y
+removed <span style="color:#e6db74">&#39;directory/root_file&#39;</span></code></pre></div>
+<p><strong>Besoin</strong> : protéger les fichiers présents dans un répertoire à son seul propriétaire uniquement (suppression/renommage)</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> mydir
 
 <span style="color:#ae81ff">777</span> drwxrwxrwx jclegras:jclegras mydir
