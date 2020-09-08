@@ -93,6 +93,7 @@
 <p>Pour commencer, nous allons parler <strong>setuid</strong> et <strong>setgid</strong> qu&rsquo;on peut setter sur les fichiers avec un petit programme Golang pour voir les choses.</p>
 <p>Ensuite, nous examinerons le <strong>setgid</strong> mais cette fois-ci sur des répertoires.</p>
 <p>Finalement, on s&rsquo;intéressera au <strong>sticky bit</strong> sur les répertoires.</p>
+<p>Pour conclure, on jettera un oeil à une fonctionnalité de Kubernetes qui fait usage du <strong>setgid</strong>.</p>
 <h3 id="permissions-spéciales-sur-un-fichier">Permissions spéciales sur un fichier</h3>
 <h4 id="setuidsetgid">setuid/setgid</h4>
 <p><strong>Besoin</strong> : exécuter un fichier exécutable avec les privilèges du propriétaire/groupe resp. du fichier</p>
@@ -323,6 +324,91 @@ drwxrwxrwt <span style="color:#ae81ff">2</span> root root <span style="color:#ae
 <p>Selon les <a href="https://man7.org/linux/man-pages/man1/chmod.1.html#RESTRICTED_DELETION_FLAG_OR_STICKY_BIT">man pages Linux</a>, on apprend finalement que le terme <em>sticky bit</em> est réservé au bit lorsqu&rsquo;il est positionné sur un fichier.
 Sur les nouveaux systèmes, le sticky bit est ignoré lorsqu&rsquo;il concerne les fichiers.
 Lorsque ce bit est posé sur un répertoire, il se nomme <em>restricted deletion flag</em>. Ce qui est décrit plus haut montre son fonctionnement.</p>
+<h3 id="kubernetes">Kubernetes</h3>
+<p>Une feature située au niveau du <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">PodSecurityContext</a> utilise le setgid pour le partage de (certains types) de volumes entre plusieurs conteneurs : <em>spec.fsGroup</em>.</p>
+<p>Voici un YAML d&rsquo;exemple pour montrer cette feature :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: apps/v1
+<span style="color:#66d9ef">kind</span>: Deployment
+<span style="color:#66d9ef">metadata</span>:
+   <span style="color:#66d9ef">name</span>: hello-world
+   <span style="color:#66d9ef">labels</span>:
+     <span style="color:#66d9ef">app</span>: hello-world
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">1</span>
+  <span style="color:#66d9ef">selector</span>:
+    <span style="color:#66d9ef">matchLabels</span>:
+      <span style="color:#66d9ef">app</span>: hello-world
+  <span style="color:#66d9ef">template</span>:
+    <span style="color:#66d9ef">metadata</span>:
+      <span style="color:#66d9ef">labels</span>:
+        <span style="color:#66d9ef">app</span>: hello-world
+    <span style="color:#66d9ef">spec</span>:
+      <span style="color:#66d9ef">securityContext</span>:
+        <span style="color:#66d9ef">fsGroup</span>: <span style="color:#ae81ff">555</span>
+      <span style="color:#66d9ef">containers</span>:
+      - <span style="color:#66d9ef">name</span>: first
+        <span style="color:#66d9ef">image</span>: alpine
+        <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#34;/bin/sleep&#34;</span>, <span style="color:#e6db74">&#34;999999&#34;</span>]
+        <span style="color:#66d9ef">securityContext</span>:
+          <span style="color:#66d9ef">runAsUser</span>: <span style="color:#ae81ff">1111</span>
+        <span style="color:#66d9ef">volumeMounts</span>:
+        - <span style="color:#66d9ef">name</span>: shared-volume
+          <span style="color:#66d9ef">mountPath</span>: /volume
+      - <span style="color:#66d9ef">name</span>: second
+        <span style="color:#66d9ef">image</span>: alpine
+        <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#34;/bin/sleep&#34;</span>, <span style="color:#e6db74">&#34;999999&#34;</span>]
+        <span style="color:#66d9ef">securityContext</span>:
+          <span style="color:#66d9ef">runAsUser</span>: <span style="color:#ae81ff">2222</span>
+        <span style="color:#66d9ef">volumeMounts</span>:
+        - <span style="color:#66d9ef">name</span>: shared-volume
+          <span style="color:#66d9ef">mountPath</span>: /volume
+      <span style="color:#66d9ef">volumes</span>:
+      - <span style="color:#66d9ef">name</span>: shared-volume
+        emptyDir:</code></pre></div>
+<p>Montrons le <em>setgid</em> à l&rsquo;oeuvre avec cette suite de commandes Bash :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl exec -it hello-world-bd78cdd6-pm4tq -c first -- sh
+<span style="color:#75715e"># Ou tout autre nom qu&#39;aura pris votre Pod</span>
+
+/ $ id
+
+uid<span style="color:#f92672">=</span><span style="color:#ae81ff">1111</span> gid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span><span style="color:#ae81ff">555</span>
+<span style="color:#75715e"># Le user d&#39;UID 1111 a un groupe supplémentaire : 555</span>
+
+/ $ stat -c <span style="color:#e6db74">&#34;%a %A %u:%g&#34;</span> /volume
+
+<span style="color:#ae81ff">2777</span> drwxrwsrwx 0:555
+<span style="color:#75715e"># On reconnait l&#39;octet de haut niveau qui vaut 2 (setgid)</span>
+
+/ $ touch /volume/first_container <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %u:%g&#34;</span> /volume/first_container
+
+<span style="color:#ae81ff">644</span> -rw-r--r-- 1111:555
+<span style="color:#75715e"># Le GID du fichier créé est égale au GID du répertoire parent</span>
+<span style="color:#75715e">#  Sans le GID, le fichier aurait eu les perm 1111:0</span>
+
+/ $ ^D
+
+$ kubectl exec -it hello-world-bd78cdd6-pm4tq -c second -- sh
+
+/ $ id
+
+uid<span style="color:#f92672">=</span><span style="color:#ae81ff">2222</span> gid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span><span style="color:#ae81ff">555</span>
+<span style="color:#75715e"># Le user d&#39;UID 2222 a un groupe supplémentaire : 555</span>
+
+/ $ touch /volume/second_container <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %u:%g&#34;</span> /volume/second_container
+
+<span style="color:#ae81ff">644</span> -rw-r--r-- 2222:555
+<span style="color:#75715e"># Le GID du fichier créé est égale au GID du répertoire parent</span>
+<span style="color:#75715e">#  Sans le GID, le fichier aurait eu les perm 2222:0</span>
+
+
+/ $ stat -c <span style="color:#e6db74">&#34;%a %A %u:%g&#34;</span> /volume/<span style="color:#ae81ff">\*</span>
+
+<span style="color:#ae81ff">644</span> -rw-r--r-- 1111:555 /volume/first_container
+<span style="color:#ae81ff">644</span> -rw-r--r-- 2222:555 /volume/second_container
+<span style="color:#75715e"># Le conteneur &#39;first&#39; peut lire le contenu du fichier</span> 
+<span style="color:#75715e">#   appartenant au conteneur &#39;second&#39; et vice versa</span></code></pre></div>
 <h2 id="ressources">Ressources</h2>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Setuid">Setuid - wikipédia</a></li>
