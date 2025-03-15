@@ -1,6 +1,6 @@
 +++
 date = '2025-03-15T14:24:00+01:00'
-draft = true
+draft = false
 title = 'What is tail latency ?'
 +++
 
