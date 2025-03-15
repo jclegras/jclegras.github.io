@@ -1,30 +1,30 @@
 +++
 author = "Jean-Charles Legras"
-title =  "Permissions spéciales"
+title = "Special Permissions"
 date = "2020-09-03"
 draft = false
 tags = ["setuid", "setgid", "sticky bit", "special permissions", "restricted deletion flag"]
 +++
 
-## Les permissions spéciales sous Linux
+## Special Permissions in Linux
 
-### Résumé
+### Summary
 
-Je vous présente ici les permissions dites spéciales qu'on utilise moins souvent que les permissions standards.
+In this section, I will introduce the special permissions that are less commonly used than standard permissions.
 
-Pour commencer, nous allons parler **setuid** et **setgid** qu'on peut setter sur les fichiers avec un petit programme Golang pour voir les choses.
+First, we will discuss **setuid** and **setgid** which can be set on files, using a small Golang program to observe their effects.
 
-Ensuite, nous examinerons le **setgid** mais cette fois-ci sur des répertoires.
+Next, we will examine **setgid** but this time on directories.
 
-Finalement, on s'intéressera au **sticky bit** sur les répertoires.
+Finally, we will look into the **sticky bit** on directories.
 
-Pour conclure, on jettera un oeil à une fonctionnalité de Kubernetes qui fait usage du **setgid**.
+To conclude, we will take a look at a Kubernetes feature that utilizes **setgid**.
 
-### Permissions spéciales sur un fichier
+### Special Permissions on a File
 
 #### setuid/setgid
 
-__Besoin__ : exécuter un fichier exécutable avec les privilèges du propriétaire/groupe resp. du fichier
+__Requirement__: Execute a file with the privileges of the file's owner/group respectively.
 
 **main.go**
 {{< highlight golang >}}
@@ -43,9 +43,9 @@ func main() {
 }
 {{< /highlight >}}
 
-- Le *Real UID/GID* correspond resp. à l'UID/GID de l'utilisateur courant
-- Le *Effective UID/GID* correspond resp. à l'UID/GID adopté
-- L'octet de plus haut niveau est setté à 2 pour setgid et 4 pour setuid
+- The *Real UID/GID* corresponds respectively to the UID/GID of the current user
+- The *Effective UID/GID* corresponds respectively to the adopted UID/GID
+- The highest-order octet is set to 2 for setgid and 4 for setuid
 
 {{< highlight bash >}}
 $ id
@@ -62,7 +62,7 @@ Real UID        = 1000
 Effective UID   = 1000
 Real GID        = 1000
 Effective GID   = 1000
-# Par défaut, les effective UID/GID sont fixées à mes UID/GID utilisateur
+# By default, the effective UID/GID are set to my user UID/GID
 
 $ sudo chmod u+s main && stat -c "%a %A %U:%G" main
 4775 -rwsrwxr-x root:docker
@@ -72,7 +72,7 @@ Real UID        = 1000
 Effective UID   = 0
 Real GID        = 1000
 Effective GID   = 1000
-# Avec setuid, l'UID adopté par le processus vaut celui du propriétaire du fichier exécutable
+# With setuid, the UID adopted by the process is that of the owner of the executable file
 
 $ sudo chmod g+s main && stat -c "%a %A %U:%G" main
 6775 -rwsrwsr-x root:docker
@@ -82,23 +82,22 @@ Real UID        = 1000
 Effective UID   = 0
 Real GID        = 1000
 Effective GID   = 999
-# Avec setgid, le GID adopté par le processus vaut celui du groupe du fichier exécutable
-# Le setuid étant encore fixé, l'effective UID vaut toujours celui de root
+# With setgid, the GID adopted by the process is that of the group of the executable file
+# Since setuid is still set, the effective UID remains that of root
 
 {{< /highlight >}}
 
-Pour commencer, on constate que lorsque les bits setuid sont marqués, l'*effective UID* est fixé à *root*, propriétaire du fichier.
+To begin with, we observe that when the setuid bits are set, the *effective UID* is set to *root*, the owner of the file.
 
-De même, lorsque les bits setgid sont marqués, l'*effective GID* est fixé à *docker*, groupe du fichier.
+Similarly, when the setgid bits are set, the *effective GID* is set to *docker*, the group of the file.
 
-Par ailleurs, les bits setuid (4) et setgid (2) étant marqués, l'octet de plus haut niveau vaut bien 4 + 2 = 6.
+Furthermore, since both setuid (4) and setgid (2) bits are set, the highest-order octet is indeed 4 + 2 = 6.
 
-Finalement, le processus représentant l'exécution du fichier *main.go* vaut bien jclegras:jclegras (1000:1000) lorsque les permissions
-spéciales ne sont pas fixées du tout.
+Finally, the process representing the execution of the *main.go* file is indeed jclegras:jclegras (1000:1000) when no special permissions are set at all.
 
-__Besoin__ : lister les fichiers avec setuid qui conduirait à un effective UID égale à root
+__Requirement__: list files with setuid that would result in an effective UID equal to root
 
-Voici un exemple conduit sur le répertoire */bin*:
+Here is an example conducted on the */bin* directory:
 {{< highlight bash >}}
 $ find /bin -user root -perm -4000 -exec ls -ldb {} \;
 
@@ -109,9 +108,9 @@ $ find /bin -user root -perm -4000 -exec ls -ldb {} \;
 -rwsr-xr-x 1 root root 44664 mars  22  2019 /bin/su
 {{< /highlight >}}
 
-On voit bien par exemple que la commande ping impose des privilèges qu'un utilisateur courant n'est pas censé posséder. Les bits setuid sont donc fixés sur la commande *ping*.
+We can see, for example, that the ping command imposes privileges that a regular user is not supposed to have. Therefore, the setuid bits are set on the *ping* command.
 
-En effet, l'utilitaire *ping* doit pouvoir créer des sockets ICMP qui connaissent des restrictions dans les kernels Linux: [man pages icmp(7)](http://man7.org/linux/man-pages/man7/icmp.7.html)
+Indeed, the *ping* utility must be able to create ICMP sockets, which have restrictions in Linux kernels: [man pages icmp(7)](http://man7.org/linux/man-pages/man7/icmp.7.html)
 
        ping_group_range (two integers; default: see below; since Linux
        2.6.39)
@@ -120,11 +119,11 @@ En effet, l'utilitaire *ping* doit pouvoir créer des sockets ICMP qui connaisse
               default is "1 0", which means no group is allowed to create
               ICMP Echo sockets.
 
-### Permissions spéciales sur un répertoire
+### Special Permissions on a Directory
 
 #### setgid
 
-__Besoin__ : je veux partager un répertoire entre plusieurs personnes pour en faire un espace de travail sans avoir à changer mon groupe (GID) primaire
+__Requirement__: I want to share a directory among multiple people to create a workspace without having to change my primary group (GID).
 
 {{< highlight bash >}}
 $ mkdir special-directory && \
@@ -132,30 +131,30 @@ chown jclegras:docker special-directory/ && \
 stat -c "%a %A %U:%G" special-directory/
 
 775 drwxrwxr-x jclegras:docker 
-# On crée un répertoire en 775 d'UID:GID jclegras:docker
+# Create a directory with 775 permissions and UID:GID jclegras:docker
 
 $ touch special-directory/my-file && \
   stat -c "%a %A %U:%G" special-directory/my-file
 
 664 -rw-rw-r-- jclegras:jclegras 
-# Le fichier créé a pour GID celui de mon utilisateur courant
+# The file created has the GID of my current user
 
 $ chmod g+s special-directory/ && \
   stat -c "%a %A %U:%G" special-directory
 
 2775 drwxrwsr-x jclegras:docker 
-# On remarque l'octet de haut niveau fixé à 2 (setgid)
+# We notice the highest-order octet set to 2 (setgid)
 
 $ stat -c "%a %A %U:%G" special-directory/my-file
 
 664 -rw-rw-r-- jclegras:jclegras 
-# Les permissions du fichier existant ne bougent pas
+# The permissions of the existing file do not change
 
 $ touch special-directory/my-file2 && \
   stat -c "%a %A %U:%G" special-directory/my-file2
 
 664 -rw-rw-r-- jclegras:docker 
-# Le nouveau fichier créé obtient le GID du répertoire dans lequel il est créé
+# The new file created inherits the GID of the directory in which it is created
 
 $ touch my-file3 && \
   stat -c "%a %A %U:%G" my-file3
@@ -166,30 +165,30 @@ $ mv -v my-file3 special-directory/ && \
   stat -c "%a %A %U:%G" special-directory/my-file3
 
 664 -rw-rw-r-- jclegras:jclegras
-# Les permissions d'un fichier existant déplacé dans le répertoire ne changent pas
+# The permissions of an existing file moved into the directory do not change
 
 $ mkdir special-directory/subdirectory && \
   stat -c "%a %A %U:%G" special-directory/subdirectory/
 
 2775 drwxrwsr-x jclegras:docker
-# Le répertoire « hérite » de la permission setgid
+# The directory "inherits" the setgid permission
 {{< /highlight >}}
 
-On observe avec cette suite de commandes ce qui suit :
-- Par défaut, un fichier créé depuis un répertoire « classique » (sans setgid par exemple) possède un GID égale au GID primaire de l'utilisateur qui l'a créé ;
-- Lorsqu'on set les bits setgid sur le répertoire, le changement de propriétaire ne s'applique pas aux fichiers existants dans ce répertoire ;
-- Un fichier créé dans un répertoire avec setgid possède un GID égale au GID du répertoire ;
-- L'« héritage » du groupe à un fichier ne s'applique qu'à la création du fichier, déplacer un fichier dans un répertoire avec setgid ne change pas les permissions dudit fichier ;
-- Tout répertoire créé dans un répertoire avec un setgid fixé possède également le setgid hérité de son répertoire parent.
+We observe the following with this series of commands:
+- By default, a file created from a "classic" directory (without setgid, for example) has a GID equal to the primary GID of the user who created it;
+- When the setgid bits are set on the directory, the change of ownership does not apply to existing files in this directory;
+- A file created in a directory with setgid has a GID equal to the GID of the directory;
+- The "inheritance" of the group to a file only applies at the creation of the file, moving a file into a directory with setgid does not change the permissions of said file;
+- Any directory created within a directory with setgid set also inherits the setgid from its parent directory.
 
-__Note__: *setuid* est ignoré sur un répertoire sous Linux.
+__Note__: *setuid* is ignored on a directory under Linux.
 
-#### Sticky bit (plus précisément ici : restricted deletion flag)
+#### Sticky bit (more precisely here: restricted deletion flag)
 
-__Rappel__ : dès lors qu'on possède les droits en écriture sur un répertoire, on peut supprimer les fichiers qu'il contient,
-qu'on possède les droits en écriture sur le fichier ou non.
+__Reminder__: as soon as you have write permissions on a directory, you can delete the files it contains,
+whether you have write permissions on the file or not.
 
-Si on ne possède pas les droits sur le fichier on aura seulement un prompt d'avertissement :
+If you do not have permissions on the file, you will only get a warning prompt:
 
 {{< highlight bash >}}
 $ mkdir directory && \
@@ -210,26 +209,26 @@ rm: remove write-protected regular empty file 'directory/root_file'? y
 removed 'directory/root_file'
 {{< /highlight >}}
 
-__Besoin__ : protéger les fichiers présents dans un répertoire à son seul propriétaire uniquement (suppression/renommage)
+__Requirement__: Protect files in a directory so that only the owner can delete/rename them
 
 
 {{< highlight bash >}}
 $ stat -c "%a %A %U:%G %n" mydir
 
 777 drwxrwxrwx jclegras:jclegras mydir
-# Perm. en 777, tout le monde peut supprimer les fichiers à l'intérieur
+# With permissions set to 777, anyone can delete the files inside
 
 $ chmod o+t mydir && \
   stat -c "%a %A %U:%G %n" mydir
 
 1777 drwxrwxrwt jclegras:jclegras mydir
-# Le sticky bit vaut 1
+# The sticky bit is set to 1
 
 $ touch mydir/myfile && \
   stat -c "%a %A %U:%G %n" mydir/myfile
 
 664 -rw-rw-r-- jclegras:jclegras mydir/myfile 
-# Pour la suppression, les droits du fichier ne rentrent pas en compte (@ rappel)
+# For deletion, the file permissions do not matter (reminder)
 
 $ sudo su jcbis
 
@@ -237,22 +236,22 @@ $ rm -v mydir/myfile
 
 rm: remove write-protected regular empty file 'mydir/myfile'? y
 rm: cannot remove 'mydir/myfile': Operation not permitted
-# Suppression impossible alors que les droits du répertoire le permettent
-#   On a bien par ex o+rwx, donc les 'Autres' peuvent supprimer les fichiers
-#   C'est bien le sticky bit qui impose une restriction plus forte ici (!)
+# Deletion impossible even though the directory permissions allow it
+#   For example, we have o+rwx, so 'Others' can delete files
+#   It is indeed the sticky bit that imposes a stronger restriction here (!)
 
 $ mv -v mydir/myfile .
 mv: cannot move 'mydir/myfile' to './myfile': Operation not permitted
-# Idem pour le renommage de fichier
+# Same for file renaming
 {{< /highlight >}}
 
-On peut même pousser le vice encore plus loin en settant le sticky bit ET le setgid sur le répertoire :
+We can even take it a step further by setting both the sticky bit AND the setgid on the directory:
 
 {{< highlight bash >}}
 $ stat -c "%a %A %U:%G %n" mydir
 
 3777 drwxrwsrwt jclegras:jcbis mydir
-# Chaque fichier créé aura pour groupe 'jcbis'
+# Each file created will have the group 'jcbis'
 #  2 pour setgid et 1 pour sticky bit
 
 $ touch mydir/myfile
@@ -262,27 +261,27 @@ $ sudo su jcbis
 $ stat -c "%a %A %U:%G %n" mydir/myfile
 
 664 -rw-rw-r-- jclegras:jcbis mydir/myfile
-# jcbis appartient au groupe 'jcbis', il pourrait supprimer ce fichier
+# jcbis belongs to the 'jcbis' group, they could delete this file
 
 $ rm -v mydir/myfile
 
 rm: cannot remove 'mydir/myfile': Operation not permitted
-# Opération non autorisée par le stick bit (!)
+# Operation not permitted by the sticky bit (!)
 {{< /highlight >}}
 
-Lorsque les setgid et sticky bits sont fixés, le sticky bit s'applique toujours.
-Le sticky bit empêche là encore suppression et renommage du fichier.
-Ce flag combiné au setgid, sur un répertoire, donne un fichier en append-only.
-En effet, rien n'empêche *jcbis* de lire et d'écrire dans le fichier.
+When both setgid and sticky bits are set, the sticky bit always applies.
+The sticky bit prevents deletion and renaming of the file.
+This flag combined with setgid on a directory results in an append-only file.
+Indeed, nothing prevents *jcbis* from reading and writing to the file.
 
-On peut trouver l'application du sticky bit sur le répertoire */tmp* par exemple :
+An example of the sticky bit application can be found on the */tmp* directory:
 
 {{< highlight bash >}}
 $ stat -c "%a %A %U:%G %n" /tmp
 1777 drwxrwxrwt root:root /tmp
 {{< /highlight >}}
 
-On peut rechercher des exemples de répertoire avec sticky bit avec l'outil *find* :
+We can search for examples of directories with the sticky bit using the *find* tool:
 {{< highlight bash >}}
 $ sudo find / -user root -perm -1000 -type d -exec ls -ldb {} \;
 [...]
@@ -294,16 +293,15 @@ drwxrwxrwt 2 root root 4096 Nov 21  2019 /var/lib/docker/overlay2/e44048381a2ad8
 drwxrwxrwt 2 root root 4096 Feb 26  2020 /var/lib/docker/overlay2/6daa7569532907310395eeba2f7a0e03d220865a94d973e6da91a8020110c6c5/diff/tmp
 [...]
 {{< /highlight >}}
-
-Selon les [man pages Linux](https://man7.org/linux/man-pages/man1/chmod.1.html#RESTRICTED_DELETION_FLAG_OR_STICKY_BIT), on apprend finalement que le terme *sticky bit* est réservé au bit lorsqu'il est positionné sur un fichier.
-Sur les nouveaux systèmes, le sticky bit est ignoré lorsqu'il concerne les fichiers.
-Lorsque ce bit est posé sur un répertoire, il se nomme *restricted deletion flag*. Ce qui est décrit plus haut montre son fonctionnement.
+According to the [Linux man pages](https://man7.org/linux/man-pages/man1/chmod.1.html#RESTRICTED_DELETION_FLAG_OR_STICKY_BIT), we learn that the term *sticky bit* is reserved for the bit when it is set on a file.
+On modern systems, the sticky bit is ignored when it concerns files.
+When this bit is set on a directory, it is called the *restricted deletion flag*. The description above shows its functionality.
 
 ### Kubernetes
 
-Une feature située au niveau du [PodSecurityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) utilise le setgid pour le partage de (certains types) de volumes entre plusieurs conteneurs : *spec.fsGroup*.
+A feature located at the [PodSecurityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) level uses setgid for sharing (certain types of) volumes between multiple containers: *spec.fsGroup*.
 
-Voici un YAML d'exemple pour montrer cette feature :
+Here is a sample YAML to demonstrate this feature:
 
 {{< highlight yaml >}}
 apiVersion: apps/v1
@@ -346,28 +344,28 @@ spec:
         emptyDir:
 {{< /highlight >}}
 
-Montrons le *setgid* à l'oeuvre avec cette suite de commandes Bash :
+Let's demonstrate *setgid* in action with this series of Bash commands:
 
 {{< highlight bash >}}
 $ kubectl exec -it hello-world-bd78cdd6-pm4tq -c first -- sh
-# Ou tout autre nom qu'aura pris votre Pod
+# Or any other name your Pod might have
 
 / $ id
 
 uid=1111 gid=0(root) groups=555
-# Le user d'UID 1111 a un groupe supplémentaire : 555
+# The user with UID 1111 has an additional group: 555
 
 / $ stat -c "%a %A %u:%g" /volume
 
 2777 drwxrwsrwx 0:555
-# On reconnait l'octet de haut niveau qui vaut 2 (setgid)
+# We recognize the highest-order octet set to 2 (setgid)
 
 / $ touch /volume/first_container && \
   stat -c "%a %A %u:%g" /volume/first_container
 
 644 -rw-r--r-- 1111:555
-# Le GID du fichier créé est égale au GID du répertoire parent
-#  Sans le GID, le fichier aurait eu les perm 1111:0
+# The GID of the created file is equal to the GID of the parent directory
+# Without the GID, the file would have the permissions 1111:0
 
 / $ ^D
 
@@ -376,29 +374,29 @@ $ kubectl exec -it hello-world-bd78cdd6-pm4tq -c second -- sh
 / $ id
 
 uid=2222 gid=0(root) groups=555
-# Le user d'UID 2222 a un groupe supplémentaire : 555
+# The user with UID 2222 has an additional group: 555
 
 / $ touch /volume/second_container && \
   stat -c "%a %A %u:%g" /volume/second_container
 
 644 -rw-r--r-- 2222:555
-# Le GID du fichier créé est égale au GID du répertoire parent
-#  Sans le GID, le fichier aurait eu les perm 2222:0
+# The GID of the created file is equal to the GID of the parent directory
+# Without the GID, the file would have the permissions 2222:0
 
 
 / $ stat -c "%a %A %u:%g" /volume/\*
 
 644 -rw-r--r-- 1111:555 /volume/first_container
 644 -rw-r--r-- 2222:555 /volume/second_container
-# Le conteneur 'first' peut lire le contenu du fichier 
-#   appartenant au conteneur 'second' et vice versa
+The 'first' container can read the contents of the file 
+  belonging to the 'second' container and vice versa
 {{< /highlight >}}
 
 
 
-## Ressources
+## Resources
 
-* [Setuid - wikipédia](https://en.wikipedia.org/wiki/Setuid)
-* [Sticky bit - wikipédia](https://en.wikipedia.org/wiki/Sticky_bit)
-* [Permissions spéciales - doc Oracle](https://docs.oracle.com/cd/E19683-01/816-4883/secfile-69/index.html)
+* [Setuid - Wikipedia](https://en.wikipedia.org/wiki/Setuid)
+* [Sticky bit - Wikipedia](https://en.wikipedia.org/wiki/Sticky_bit)
+* [Special Permissions - Oracle Documentation](https://docs.oracle.com/cd/E19683-01/816-4883/secfile-69/index.html)
 * [How to use special permissions - linuxconfig.org](https://linuxconfig.org/how-to-use-special-permissions-the-setuid-setgid-and-sticky-bits)

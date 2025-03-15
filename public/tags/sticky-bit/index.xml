@@ -8,15 +8,15 @@
     <language>en</language>
     <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://jclegras.github.io/tags/sticky-bit/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Permissions spéciales</title>
+      <title>Special Permissions</title>
       <link>https://jclegras.github.io/posts/special-permissions/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://jclegras.github.io/posts/special-permissions/</guid>
       
-        <description>&lt;h2 id=&#34;les-permissions-spéciales-sous-linux&#34;&gt;Les permissions spéciales sous Linux&lt;/h2&gt;
-&lt;h3 id=&#34;résumé&#34;&gt;Résumé&lt;/h3&gt;
-&lt;p&gt;Je vous présente ici les permissions dites spéciales qu&amp;rsquo;on utilise moins souvent que les permissions standards.&lt;/p&gt;</description>
+        <description>&lt;h2 id=&#34;special-permissions-in-linux&#34;&gt;Special Permissions in Linux&lt;/h2&gt;
+&lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
+&lt;p&gt;In this section, I will introduce the special permissions that are less commonly used than standard permissions.&lt;/p&gt;</description>
       
     </item>
     

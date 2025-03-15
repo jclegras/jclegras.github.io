@@ -11,7 +11,7 @@
   <title>
     Jean-Charles Legras
         |
-        Permissions spéciales
+        Special Permissions
       
 
     
@@ -116,16 +116,16 @@
   
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Permissions spéciales">
-  <meta name="twitter:description" content="Les permissions spéciales sous Linux Résumé Je vous présente ici les permissions dites spéciales qu’on utilise moins souvent que les permissions standards.">
+  <meta name="twitter:title" content="Special Permissions">
+  <meta name="twitter:description" content="Special Permissions in Linux Summary In this section, I will introduce the special permissions that are less commonly used than standard permissions.">
 
 
 
   
   <meta property="og:url" content="https://jclegras.github.io/posts/special-permissions/">
   <meta property="og:site_name" content="Jean-Charles Legras&#39; blog">
-  <meta property="og:title" content="Permissions spéciales">
-  <meta property="og:description" content="Les permissions spéciales sous Linux Résumé Je vous présente ici les permissions dites spéciales qu’on utilise moins souvent que les permissions standards.">
+  <meta property="og:title" content="Special Permissions">
+  <meta property="og:description" content="Special Permissions in Linux Summary In this section, I will introduce the special permissions that are less commonly used than standard permissions.">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -148,12 +148,12 @@
         "@context": "http://schema.org",
         "@type": "BlogPosting",
         "articleSection": "posts",
-        "name": "Permissions spéciales",
-        "headline": "Permissions spéciales",
+        "name": "Special Permissions",
+        "headline": "Special Permissions",
         "alternativeHeadline": "",
         "description": "
       
-        \u003ch2 id=\u0022les-permissions-spéciales-sous-linux\u0022\u003eLes permissions spéciales sous Linux\u003c\/h2\u003e\n\u003ch3 id=\u0022résumé\u0022\u003eRésumé\u003c\/h3\u003e\n\u003cp\u003eJe vous présente ici les permissions dites spéciales qu\u0026rsquo;on utilise moins souvent que les permissions standards.\u003c\/p\u003e
+        \u003ch2 id=\u0022special-permissions-in-linux\u0022\u003eSpecial Permissions in Linux\u003c\/h2\u003e\n\u003ch3 id=\u0022summary\u0022\u003eSummary\u003c\/h3\u003e\n\u003cp\u003eIn this section, I will introduce the special permissions that are less commonly used than standard permissions.\u003c\/p\u003e
 
 
       
@@ -203,7 +203,7 @@
 
     ,
         "url" : "https:\/\/jclegras.github.io\/posts\/special-permissions\/",
-        "wordCount" : "1881",
+        "wordCount" : "1862",
         "genre" : [ ],
         "keywords" : [ 
       
@@ -423,18 +423,18 @@
     
     <div class="post__content">
       
-        <h1>Permissions Spéciales</h1>
+        <h1>Special Permissions</h1>
       
-      <h2 id="les-permissions-spéciales-sous-linux">Les permissions spéciales sous Linux</h2>
-<h3 id="résumé">Résumé</h3>
-<p>Je vous présente ici les permissions dites spéciales qu&rsquo;on utilise moins souvent que les permissions standards.</p>
-<p>Pour commencer, nous allons parler <strong>setuid</strong> et <strong>setgid</strong> qu&rsquo;on peut setter sur les fichiers avec un petit programme Golang pour voir les choses.</p>
-<p>Ensuite, nous examinerons le <strong>setgid</strong> mais cette fois-ci sur des répertoires.</p>
-<p>Finalement, on s&rsquo;intéressera au <strong>sticky bit</strong> sur les répertoires.</p>
-<p>Pour conclure, on jettera un oeil à une fonctionnalité de Kubernetes qui fait usage du <strong>setgid</strong>.</p>
-<h3 id="permissions-spéciales-sur-un-fichier">Permissions spéciales sur un fichier</h3>
+      <h2 id="special-permissions-in-linux">Special Permissions in Linux</h2>
+<h3 id="summary">Summary</h3>
+<p>In this section, I will introduce the special permissions that are less commonly used than standard permissions.</p>
+<p>First, we will discuss <strong>setuid</strong> and <strong>setgid</strong> which can be set on files, using a small Golang program to observe their effects.</p>
+<p>Next, we will examine <strong>setgid</strong> but this time on directories.</p>
+<p>Finally, we will look into the <strong>sticky bit</strong> on directories.</p>
+<p>To conclude, we will take a look at a Kubernetes feature that utilizes <strong>setgid</strong>.</p>
+<h3 id="special-permissions-on-a-file">Special Permissions on a File</h3>
 <h4 id="setuidsetgid">setuid/setgid</h4>
-<p><strong>Besoin</strong> : exécuter un fichier exécutable avec les privilèges du propriétaire/groupe resp. du fichier</p>
+<p><strong>Requirement</strong>: Execute a file with the privileges of the file&rsquo;s owner/group respectively.</p>
 <p><strong>main.go</strong>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 </span></span><span style="display:flex;"><span>
@@ -450,9 +450,9 @@
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Effective GID\t= %d\n&#34;</span>, <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getegid</span>())
 </span></span><span style="display:flex;"><span>}</span></span></code></pre></div></p>
 <ul>
-<li>Le <em>Real UID/GID</em> correspond resp. à l&rsquo;UID/GID de l&rsquo;utilisateur courant</li>
-<li>Le <em>Effective UID/GID</em> correspond resp. à l&rsquo;UID/GID adopté</li>
-<li>L&rsquo;octet de plus haut niveau est setté à 2 pour setgid et 4 pour setuid</li>
+<li>The <em>Real UID/GID</em> corresponds respectively to the UID/GID of the current user</li>
+<li>The <em>Effective UID/GID</em> corresponds respectively to the adopted UID/GID</li>
+<li>The highest-order octet is set to 2 for setgid and 4 for setuid</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ id
 </span></span><span style="display:flex;"><span>uid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>jclegras<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>jclegras<span style="color:#f92672">)</span>
@@ -468,7 +468,7 @@
 </span></span><span style="display:flex;"><span>Effective UID   <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
 </span></span><span style="display:flex;"><span>Real GID        <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
 </span></span><span style="display:flex;"><span>Effective GID   <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Par défaut, les effective UID/GID sont fixées à mes UID/GID utilisateur</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># By default, the effective UID/GID are set to my user UID/GID</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ sudo chmod u+s main <span style="color:#f92672">&amp;&amp;</span> stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> main
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">4775</span> -rwsrwxr-x root:docker
@@ -478,7 +478,7 @@
 </span></span><span style="display:flex;"><span>Effective UID   <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>Real GID        <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
 </span></span><span style="display:flex;"><span>Effective GID   <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Avec setuid, l&#39;UID adopté par le processus vaut celui du propriétaire du fichier exécutable</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># With setuid, the UID adopted by the process is that of the owner of the executable file</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ sudo chmod g+s main <span style="color:#f92672">&amp;&amp;</span> stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> main
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">6775</span> -rwsrwsr-x root:docker
@@ -488,15 +488,14 @@
 </span></span><span style="display:flex;"><span>Effective UID   <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>Real GID        <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
 </span></span><span style="display:flex;"><span>Effective GID   <span style="color:#f92672">=</span> <span style="color:#ae81ff">999</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Avec setgid, le GID adopté par le processus vaut celui du groupe du fichier exécutable</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Le setuid étant encore fixé, l&#39;effective UID vaut toujours celui de root</span></span></span></code></pre></div>
-<p>Pour commencer, on constate que lorsque les bits setuid sont marqués, l&rsquo;<em>effective UID</em> est fixé à <em>root</em>, propriétaire du fichier.</p>
-<p>De même, lorsque les bits setgid sont marqués, l&rsquo;<em>effective GID</em> est fixé à <em>docker</em>, groupe du fichier.</p>
-<p>Par ailleurs, les bits setuid (4) et setgid (2) étant marqués, l&rsquo;octet de plus haut niveau vaut bien 4 + 2 = 6.</p>
-<p>Finalement, le processus représentant l&rsquo;exécution du fichier <em>main.go</em> vaut bien jclegras:jclegras (1000:1000) lorsque les permissions
-spéciales ne sont pas fixées du tout.</p>
-<p><strong>Besoin</strong> : lister les fichiers avec setuid qui conduirait à un effective UID égale à root</p>
-<p>Voici un exemple conduit sur le répertoire <em>/bin</em>:
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># With setgid, the GID adopted by the process is that of the group of the executable file</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Since setuid is still set, the effective UID remains that of root</span></span></span></code></pre></div>
+<p>To begin with, we observe that when the setuid bits are set, the <em>effective UID</em> is set to <em>root</em>, the owner of the file.</p>
+<p>Similarly, when the setgid bits are set, the <em>effective GID</em> is set to <em>docker</em>, the group of the file.</p>
+<p>Furthermore, since both setuid (4) and setgid (2) bits are set, the highest-order octet is indeed 4 + 2 = 6.</p>
+<p>Finally, the process representing the execution of the <em>main.go</em> file is indeed jclegras:jclegras (1000:1000) when no special permissions are set at all.</p>
+<p><strong>Requirement</strong>: list files with setuid that would result in an effective UID equal to root</p>
+<p>Here is an example conducted on the <em>/bin</em> directory:
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ find /bin -user root -perm -4000 -exec ls -ldb <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>-rwsr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">26696</span> mars   <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> /bin/umount
@@ -504,8 +503,8 @@ spéciales ne sont pas fixées du tout.</p>
 </span></span><span style="display:flex;"><span>-rwsr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">64424</span> juin  <span style="color:#ae81ff">28</span>  <span style="color:#ae81ff">2019</span> /bin/ping
 </span></span><span style="display:flex;"><span>-rwsr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">43088</span> mars   <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> /bin/mount
 </span></span><span style="display:flex;"><span>-rwsr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">44664</span> mars  <span style="color:#ae81ff">22</span>  <span style="color:#ae81ff">2019</span> /bin/su</span></span></code></pre></div></p>
-<p>On voit bien par exemple que la commande ping impose des privilèges qu&rsquo;un utilisateur courant n&rsquo;est pas censé posséder. Les bits setuid sont donc fixés sur la commande <em>ping</em>.</p>
-<p>En effet, l&rsquo;utilitaire <em>ping</em> doit pouvoir créer des sockets ICMP qui connaissent des restrictions dans les kernels Linux: <a href="http://man7.org/linux/man-pages/man7/icmp.7.html">man pages icmp(7)</a></p>
+<p>We can see, for example, that the ping command imposes privileges that a regular user is not supposed to have. Therefore, the setuid bits are set on the <em>ping</em> command.</p>
+<p>Indeed, the <em>ping</em> utility must be able to create ICMP sockets, which have restrictions in Linux kernels: <a href="http://man7.org/linux/man-pages/man7/icmp.7.html">man pages icmp(7)</a></p>
 <pre><code>   ping_group_range (two integers; default: see below; since Linux
    2.6.39)
           Range of the group IDs (minimum and maximum group IDs,
@@ -513,38 +512,38 @@ spéciales ne sont pas fixées du tout.</p>
           default is &quot;1 0&quot;, which means no group is allowed to create
           ICMP Echo sockets.
 </code></pre>
-<h3 id="permissions-spéciales-sur-un-répertoire">Permissions spéciales sur un répertoire</h3>
+<h3 id="special-permissions-on-a-directory">Special Permissions on a Directory</h3>
 <h4 id="setgid">setgid</h4>
-<p><strong>Besoin</strong> : je veux partager un répertoire entre plusieurs personnes pour en faire un espace de travail sans avoir à changer mon groupe (GID) primaire</p>
+<p><strong>Requirement</strong>: I want to share a directory among multiple people to create a workspace without having to change my primary group (GID).</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ mkdir special-directory <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>chown jclegras:docker special-directory/ <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory/
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">775</span> drwxrwxr-x jclegras:docker 
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># On crée un répertoire en 775 d&#39;UID:GID jclegras:docker</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create a directory with 775 permissions and UID:GID jclegras:docker</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ touch special-directory/my-file <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory/my-file
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:jclegras 
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Le fichier créé a pour GID celui de mon utilisateur courant</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The file created has the GID of my current user</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ chmod g+s special-directory/ <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">2775</span> drwxrwsr-x jclegras:docker 
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># On remarque l&#39;octet de haut niveau fixé à 2 (setgid)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># We notice the highest-order octet set to 2 (setgid)</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory/my-file
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:jclegras 
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Les permissions du fichier existant ne bougent pas</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The permissions of the existing file do not change</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ touch special-directory/my-file2 <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory/my-file2
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:docker 
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Le nouveau fichier créé obtient le GID du répertoire dans lequel il est créé</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The new file created inherits the GID of the directory in which it is created</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ touch my-file3 <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> my-file3
@@ -555,26 +554,26 @@ spéciales ne sont pas fixées du tout.</p>
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory/my-file3
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:jclegras
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Les permissions d&#39;un fichier existant déplacé dans le répertoire ne changent pas</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The permissions of an existing file moved into the directory do not change</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ mkdir special-directory/subdirectory <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G&#34;</span> special-directory/subdirectory/
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">2775</span> drwxrwsr-x jclegras:docker
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Le répertoire « hérite » de la permission setgid</span></span></span></code></pre></div>
-<p>On observe avec cette suite de commandes ce qui suit :</p>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The directory &#34;inherits&#34; the setgid permission</span></span></span></code></pre></div>
+<p>We observe the following with this series of commands:</p>
 <ul>
-<li>Par défaut, un fichier créé depuis un répertoire « classique » (sans setgid par exemple) possède un GID égale au GID primaire de l&rsquo;utilisateur qui l&rsquo;a créé ;</li>
-<li>Lorsqu&rsquo;on set les bits setgid sur le répertoire, le changement de propriétaire ne s&rsquo;applique pas aux fichiers existants dans ce répertoire ;</li>
-<li>Un fichier créé dans un répertoire avec setgid possède un GID égale au GID du répertoire ;</li>
-<li>L&rsquo;« héritage » du groupe à un fichier ne s&rsquo;applique qu&rsquo;à la création du fichier, déplacer un fichier dans un répertoire avec setgid ne change pas les permissions dudit fichier ;</li>
-<li>Tout répertoire créé dans un répertoire avec un setgid fixé possède également le setgid hérité de son répertoire parent.</li>
+<li>By default, a file created from a &ldquo;classic&rdquo; directory (without setgid, for example) has a GID equal to the primary GID of the user who created it;</li>
+<li>When the setgid bits are set on the directory, the change of ownership does not apply to existing files in this directory;</li>
+<li>A file created in a directory with setgid has a GID equal to the GID of the directory;</li>
+<li>The &ldquo;inheritance&rdquo; of the group to a file only applies at the creation of the file, moving a file into a directory with setgid does not change the permissions of said file;</li>
+<li>Any directory created within a directory with setgid set also inherits the setgid from its parent directory.</li>
 </ul>
-<p><strong>Note</strong>: <em>setuid</em> est ignoré sur un répertoire sous Linux.</p>
-<h4 id="sticky-bit-plus-précisément-ici--restricted-deletion-flag">Sticky bit (plus précisément ici : restricted deletion flag)</h4>
-<p><strong>Rappel</strong> : dès lors qu&rsquo;on possède les droits en écriture sur un répertoire, on peut supprimer les fichiers qu&rsquo;il contient,
-qu&rsquo;on possède les droits en écriture sur le fichier ou non.</p>
-<p>Si on ne possède pas les droits sur le fichier on aura seulement un prompt d&rsquo;avertissement :</p>
+<p><strong>Note</strong>: <em>setuid</em> is ignored on a directory under Linux.</p>
+<h4 id="sticky-bit-more-precisely-here-restricted-deletion-flag">Sticky bit (more precisely here: restricted deletion flag)</h4>
+<p><strong>Reminder</strong>: as soon as you have write permissions on a directory, you can delete the files it contains,
+whether you have write permissions on the file or not.</p>
+<p>If you do not have permissions on the file, you will only get a warning prompt:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ mkdir directory <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  chmod <span style="color:#ae81ff">777</span> directory <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  touch directory/root_file <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
@@ -591,23 +590,23 @@ qu&rsquo;on possède les droits en écriture sur le fichier ou non.</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>rm: remove write-protected regular empty file <span style="color:#e6db74">&#39;directory/root_file&#39;</span>? y
 </span></span><span style="display:flex;"><span>removed <span style="color:#e6db74">&#39;directory/root_file&#39;</span></span></span></code></pre></div>
-<p><strong>Besoin</strong> : protéger les fichiers présents dans un répertoire à son seul propriétaire uniquement (suppression/renommage)</p>
+<p><strong>Requirement</strong>: Protect files in a directory so that only the owner can delete/rename them</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> mydir
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">777</span> drwxrwxrwx jclegras:jclegras mydir
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Perm. en 777, tout le monde peut supprimer les fichiers à l&#39;intérieur</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># With permissions set to 777, anyone can delete the files inside</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ chmod o+t mydir <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> mydir
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">1777</span> drwxrwxrwt jclegras:jclegras mydir
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Le sticky bit vaut 1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The sticky bit is set to 1</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ touch mydir/myfile <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> mydir/myfile
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:jclegras mydir/myfile 
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Pour la suppression, les droits du fichier ne rentrent pas en compte (@ rappel)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># For deletion, the file permissions do not matter (reminder)</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ sudo su jcbis
 </span></span><span style="display:flex;"><span>
@@ -615,18 +614,18 @@ qu&rsquo;on possède les droits en écriture sur le fichier ou non.</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>rm: remove write-protected regular empty file <span style="color:#e6db74">&#39;mydir/myfile&#39;</span>? y
 </span></span><span style="display:flex;"><span>rm: cannot remove <span style="color:#e6db74">&#39;mydir/myfile&#39;</span>: Operation not permitted
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Suppression impossible alors que les droits du répertoire le permettent</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#   On a bien par ex o+rwx, donc les &#39;Autres&#39; peuvent supprimer les fichiers</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#   C&#39;est bien le sticky bit qui impose une restriction plus forte ici (!)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Deletion impossible even though the directory permissions allow it</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#   For example, we have o+rwx, so &#39;Others&#39; can delete files</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#   It is indeed the sticky bit that imposes a stronger restriction here (!)</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ mv -v mydir/myfile .
 </span></span><span style="display:flex;"><span>mv: cannot move <span style="color:#e6db74">&#39;mydir/myfile&#39;</span> to <span style="color:#e6db74">&#39;./myfile&#39;</span>: Operation not permitted
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Idem pour le renommage de fichier</span></span></span></code></pre></div>
-<p>On peut même pousser le vice encore plus loin en settant le sticky bit ET le setgid sur le répertoire :</p>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Same for file renaming</span></span></span></code></pre></div>
+<p>We can even take it a step further by setting both the sticky bit AND the setgid on the directory:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> mydir
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">3777</span> drwxrwsrwt jclegras:jcbis mydir
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Chaque fichier créé aura pour groupe &#39;jcbis&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Each file created will have the group &#39;jcbis&#39;</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#  2 pour setgid et 1 pour sticky bit</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ touch mydir/myfile
@@ -636,20 +635,20 @@ qu&rsquo;on possède les droits en écriture sur le fichier ou non.</p>
 </span></span><span style="display:flex;"><span>$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> mydir/myfile
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">664</span> -rw-rw-r-- jclegras:jcbis mydir/myfile
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># jcbis appartient au groupe &#39;jcbis&#39;, il pourrait supprimer ce fichier</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># jcbis belongs to the &#39;jcbis&#39; group, they could delete this file</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ rm -v mydir/myfile
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>rm: cannot remove <span style="color:#e6db74">&#39;mydir/myfile&#39;</span>: Operation not permitted
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Opération non autorisée par le stick bit (!)</span></span></span></code></pre></div>
-<p>Lorsque les setgid et sticky bits sont fixés, le sticky bit s&rsquo;applique toujours.
-Le sticky bit empêche là encore suppression et renommage du fichier.
-Ce flag combiné au setgid, sur un répertoire, donne un fichier en append-only.
-En effet, rien n&rsquo;empêche <em>jcbis</em> de lire et d&rsquo;écrire dans le fichier.</p>
-<p>On peut trouver l&rsquo;application du sticky bit sur le répertoire <em>/tmp</em> par exemple :</p>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Operation not permitted by the sticky bit (!)</span></span></span></code></pre></div>
+<p>When both setgid and sticky bits are set, the sticky bit always applies.
+The sticky bit prevents deletion and renaming of the file.
+This flag combined with setgid on a directory results in an append-only file.
+Indeed, nothing prevents <em>jcbis</em> from reading and writing to the file.</p>
+<p>An example of the sticky bit application can be found on the <em>/tmp</em> directory:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ stat -c <span style="color:#e6db74">&#34;%a %A %U:%G %n&#34;</span> /tmp
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">1777</span> drwxrwxrwt root:root /tmp</span></span></code></pre></div>
-<p>On peut rechercher des exemples de répertoire avec sticky bit avec l&rsquo;outil <em>find</em> :
+<p>We can search for examples of directories with the sticky bit using the <em>find</em> tool:
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo find / -user root -perm -1000 -type d -exec ls -ldb <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>drwxrwxrwt <span style="color:#ae81ff">2</span> root root <span style="color:#ae81ff">40</span> Sep  <span style="color:#ae81ff">5</span> 14:23 /var/lib/docker/containers/7e30ae038ba1d1f0e1196ded588a98a309aa380609ccf315e4fbc3adb3be161b/mounts/shm
@@ -658,13 +657,13 @@ En effet, rien n&rsquo;empêche <em>jcbis</em> de lire et d&rsquo;écrire dans l
 </span></span><span style="display:flex;"><span>drwxrwxrwt <span style="color:#ae81ff">2</span> root root <span style="color:#ae81ff">40</span> Sep  <span style="color:#ae81ff">5</span> 14:23 /var/lib/docker/containers/1a5313717c13202c1577546b43490775bed7abf411efc5eab8e1a36c6da79f71/mounts/shm
 </span></span><span style="display:flex;"><span>drwxrwxrwt <span style="color:#ae81ff">2</span> root root <span style="color:#ae81ff">4096</span> Nov <span style="color:#ae81ff">21</span>  <span style="color:#ae81ff">2019</span> /var/lib/docker/overlay2/e44048381a2ad8d9fd682002fc364e7bb5add8f1d1d310a72cf3cc3992f5e398/diff/tmp
 </span></span><span style="display:flex;"><span>drwxrwxrwt <span style="color:#ae81ff">2</span> root root <span style="color:#ae81ff">4096</span> Feb <span style="color:#ae81ff">26</span>  <span style="color:#ae81ff">2020</span> /var/lib/docker/overlay2/6daa7569532907310395eeba2f7a0e03d220865a94d973e6da91a8020110c6c5/diff/tmp
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>...<span style="color:#f92672">]</span></span></span></code></pre></div></p>
-<p>Selon les <a href="https://man7.org/linux/man-pages/man1/chmod.1.html#RESTRICTED_DELETION_FLAG_OR_STICKY_BIT">man pages Linux</a>, on apprend finalement que le terme <em>sticky bit</em> est réservé au bit lorsqu&rsquo;il est positionné sur un fichier.
-Sur les nouveaux systèmes, le sticky bit est ignoré lorsqu&rsquo;il concerne les fichiers.
-Lorsque ce bit est posé sur un répertoire, il se nomme <em>restricted deletion flag</em>. Ce qui est décrit plus haut montre son fonctionnement.</p>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>...<span style="color:#f92672">]</span></span></span></code></pre></div>
+According to the <a href="https://man7.org/linux/man-pages/man1/chmod.1.html#RESTRICTED_DELETION_FLAG_OR_STICKY_BIT">Linux man pages</a>, we learn that the term <em>sticky bit</em> is reserved for the bit when it is set on a file.
+On modern systems, the sticky bit is ignored when it concerns files.
+When this bit is set on a directory, it is called the <em>restricted deletion flag</em>. The description above shows its functionality.</p>
 <h3 id="kubernetes">Kubernetes</h3>
-<p>Une feature située au niveau du <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">PodSecurityContext</a> utilise le setgid pour le partage de (certains types) de volumes entre plusieurs conteneurs : <em>spec.fsGroup</em>.</p>
-<p>Voici un YAML d&rsquo;exemple pour montrer cette feature :</p>
+<p>A feature located at the <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">PodSecurityContext</a> level uses setgid for sharing (certain types of) volumes between multiple containers: <em>spec.fsGroup</em>.</p>
+<p>Here is a sample YAML to demonstrate this feature:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
@@ -703,26 +702,26 @@ Lorsque ce bit est posé sur un répertoire, il se nomme <em>restricted deletion
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumes</span>:
 </span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">shared-volume</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">emptyDir:</span></span></span></code></pre></div>
-<p>Montrons le <em>setgid</em> à l&rsquo;oeuvre avec cette suite de commandes Bash :</p>
+<p>Let&rsquo;s demonstrate <em>setgid</em> in action with this series of Bash commands:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl exec -it hello-world-bd78cdd6-pm4tq -c first -- sh
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Ou tout autre nom qu&#39;aura pris votre Pod</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Or any other name your Pod might have</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>/ $ id
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>uid<span style="color:#f92672">=</span><span style="color:#ae81ff">1111</span> gid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span><span style="color:#ae81ff">555</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Le user d&#39;UID 1111 a un groupe supplémentaire : 555</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The user with UID 1111 has an additional group: 555</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>/ $ stat -c <span style="color:#e6db74">&#34;%a %A %u:%g&#34;</span> /volume
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">2777</span> drwxrwsrwx 0:555
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># On reconnait l&#39;octet de haut niveau qui vaut 2 (setgid)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># We recognize the highest-order octet set to 2 (setgid)</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>/ $ touch /volume/first_container <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %u:%g&#34;</span> /volume/first_container
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">644</span> -rw-r--r-- 1111:555
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Le GID du fichier créé est égale au GID du répertoire parent</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#  Sans le GID, le fichier aurait eu les perm 1111:0</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The GID of the created file is equal to the GID of the parent directory</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Without the GID, the file would have the permissions 1111:0</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>/ $ ^D
 </span></span><span style="display:flex;"><span>
@@ -731,27 +730,27 @@ Lorsque ce bit est posé sur un répertoire, il se nomme <em>restricted deletion
 </span></span><span style="display:flex;"><span>/ $ id
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>uid<span style="color:#f92672">=</span><span style="color:#ae81ff">2222</span> gid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span><span style="color:#ae81ff">555</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Le user d&#39;UID 2222 a un groupe supplémentaire : 555</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The user with UID 2222 has an additional group: 555</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>/ $ touch /volume/second_container <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  stat -c <span style="color:#e6db74">&#34;%a %A %u:%g&#34;</span> /volume/second_container
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">644</span> -rw-r--r-- 2222:555
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Le GID du fichier créé est égale au GID du répertoire parent</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#  Sans le GID, le fichier aurait eu les perm 2222:0</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The GID of the created file is equal to the GID of the parent directory</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Without the GID, the file would have the permissions 2222:0</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>/ $ stat -c <span style="color:#e6db74">&#34;%a %A %u:%g&#34;</span> /volume/<span style="color:#ae81ff">\*</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">644</span> -rw-r--r-- 1111:555 /volume/first_container
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">644</span> -rw-r--r-- 2222:555 /volume/second_container
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Le conteneur &#39;first&#39; peut lire le contenu du fichier </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#   appartenant au conteneur &#39;second&#39; et vice versa</span></span></span></code></pre></div>
-<h2 id="ressources">Ressources</h2>
+</span></span><span style="display:flex;"><span>The <span style="color:#e6db74">&#39;first&#39;</span> container can read the contents of the file 
+</span></span><span style="display:flex;"><span>  belonging to the <span style="color:#e6db74">&#39;second&#39;</span> container and vice versa</span></span></code></pre></div>
+<h2 id="resources">Resources</h2>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Setuid">Setuid - wikipédia</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Sticky_bit">Sticky bit - wikipédia</a></li>
-<li><a href="https://docs.oracle.com/cd/E19683-01/816-4883/secfile-69/index.html">Permissions spéciales - doc Oracle</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Setuid">Setuid - Wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Sticky_bit">Sticky bit - Wikipedia</a></li>
+<li><a href="https://docs.oracle.com/cd/E19683-01/816-4883/secfile-69/index.html">Special Permissions - Oracle Documentation</a></li>
 <li><a href="https://linuxconfig.org/how-to-use-special-permissions-the-setuid-setgid-and-sticky-bits">How to use special permissions - linuxconfig.org</a></li>
 </ul>
 </div>
