@@ -4,16 +4,21 @@
     <title>Special Permissions on Jean-Charles Legras&#39; blog</title>
     <link>http://localhost:1313/tags/special-permissions/</link>
     <description>Recent content in Special Permissions on Jean-Charles Legras&#39; blog</description>
-    <generator>Hugo</generator>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/special-permissions/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/special-permissions/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Permissions spéciales</title>
       <link>http://localhost:1313/posts/special-permissions/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
+      
       <guid>http://localhost:1313/posts/special-permissions/</guid>
-      <description>&lt;h2 id=&#34;les-permissions-spéciales-sous-linux&#34;&gt;Les permissions spéciales sous Linux&lt;/h2&gt;&#xA;&lt;h3 id=&#34;résumé&#34;&gt;Résumé&lt;/h3&gt;&#xA;&lt;p&gt;Je vous présente ici les permissions dites spéciales qu&amp;rsquo;on utilise moins souvent que les permissions standards.&lt;/p&gt;</description>
+      
+        <description>&lt;h2 id=&#34;les-permissions-spéciales-sous-linux&#34;&gt;Les permissions spéciales sous Linux&lt;/h2&gt;
+&lt;h3 id=&#34;résumé&#34;&gt;Résumé&lt;/h3&gt;
+&lt;p&gt;Je vous présente ici les permissions dites spéciales qu&amp;rsquo;on utilise moins souvent que les permissions standards.&lt;/p&gt;</description>
+      
     </item>
+    
   </channel>
 </rss>
