@@ -6,15 +6,12 @@ aliases = ["about-us", "contact"]
 author = "Jean-Charles Legras"
 +++
 
-**Bonjour et bienvenue sur ce modeste blog !**
+My name is Jean-Charles Legras, and I’ve been an SRE/DevOps for over 10 years.
 
-Je m'appelle *Jean-Charles Legras* et je suis *[SRE/DevOps](https://romain.soufflet.io/work/devops/sre/2018/08/11/sre-devops-que-font-ils)* depuis 10 ans maintenant.
+The world of DevOps practices and tools excites me every day, and this blog is a reflection of my ongoing journey and discoveries in this ever-evolving field.
 
-Cette émulsion autour des pratiques et des outils DevOps me passionne chaque jour et ce blog se veut le reflet de mes pérégrinations en la matière.
+It’s primarily a personal knowledge base and a showcase, but I hope it resonates with others who might stumble upon it in search of answers or inspiration.
 
-C'est avant tout un pense-bête et une vitrine et j'espère qu'il pourra en intéresser d'autres qui se seraient perdus ici.
-
-
-Si vous souhaitez me contacter pour échanger, n'hésitez pas, ce métier, cette passion, c'est avant tout de l'humain à 90%, aussi c'est avec plaisir que je répondrai selon mes disponibilités du moment.
+If you’d like to connect or discuss, don’t hesitate to reach out. This profession and passion are, first and foremost, about people, and I’d be happy to respond as my schedule allows.
 
 JC
