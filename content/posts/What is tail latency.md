@@ -2,6 +2,7 @@
 date = '2025-03-15T14:24:00+01:00'
 draft = false
 title = 'What is tail latency ?'
+tags = ["performance", "tail latency", "percentile"]
 +++
 
 ## Context
