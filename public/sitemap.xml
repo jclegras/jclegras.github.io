@@ -2,63 +2,63 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://jclegras.github.io/</loc>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2025-03-15T14:24:00+01:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/percentile/</loc>
+    <loc>http://localhost:1313/tags/percentile/</loc>
     <lastmod>2025-03-15T14:24:00+01:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/performance/</loc>
+    <loc>http://localhost:1313/tags/performance/</loc>
     <lastmod>2025-03-15T14:24:00+01:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/posts/</loc>
+    <loc>http://localhost:1313/posts/</loc>
     <lastmod>2025-03-15T14:24:00+01:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/</loc>
+    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2025-03-15T14:24:00+01:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/tail-latency/</loc>
+    <loc>http://localhost:1313/tags/tail-latency/</loc>
     <lastmod>2025-03-15T14:24:00+01:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/posts/what-is-tail-latency/</loc>
+    <loc>http://localhost:1313/posts/what-is-tail-latency/</loc>
     <lastmod>2025-03-15T14:24:00+01:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/restricted-deletion-flag/</loc>
+    <loc>http://localhost:1313/tags/restricted-deletion-flag/</loc>
     <lastmod>2020-09-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/setgid/</loc>
+    <loc>http://localhost:1313/tags/setgid/</loc>
     <lastmod>2020-09-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/setuid/</loc>
+    <loc>http://localhost:1313/tags/setuid/</loc>
     <lastmod>2020-09-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/posts/special-permissions/</loc>
+    <loc>http://localhost:1313/posts/special-permissions/</loc>
     <lastmod>2020-09-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/special-permissions/</loc>
+    <loc>http://localhost:1313/tags/special-permissions/</loc>
     <lastmod>2020-09-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/sticky-bit/</loc>
+    <loc>http://localhost:1313/tags/sticky-bit/</loc>
     <lastmod>2020-09-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/about/</loc>
+    <loc>http://localhost:1313/about/</loc>
     <lastmod>2020-06-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/devops/</loc>
+    <loc>http://localhost:1313/tags/devops/</loc>
     <lastmod>2020-06-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/docker/</loc>
+    <loc>http://localhost:1313/tags/docker/</loc>
     <lastmod>2020-06-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</loc>
+    <loc>http://localhost:1313/posts/le-user-namespace-dans-docker/</loc>
     <lastmod>2020-06-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/linux/</loc>
+    <loc>http://localhost:1313/tags/linux/</loc>
     <lastmod>2020-06-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/tags/namespace/</loc>
+    <loc>http://localhost:1313/tags/namespace/</loc>
     <lastmod>2020-06-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://jclegras.github.io/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
   </url>
 </urlset>

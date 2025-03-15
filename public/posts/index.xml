@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Jean-Charles Legras&#39; blog</title>
-    <link>https://jclegras.github.io/posts/</link>
+    <link>http://localhost:1313/posts/</link>
     <description>Recent content in Posts on Jean-Charles Legras&#39; blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 15 Mar 2025 14:24:00 +0100</lastBuildDate><atom:link href="https://jclegras.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 15 Mar 2025 14:24:00 +0100</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>What is tail latency ?</title>
-      <link>https://jclegras.github.io/posts/what-is-tail-latency/</link>
+      <link>http://localhost:1313/posts/what-is-tail-latency/</link>
       <pubDate>Sat, 15 Mar 2025 14:24:00 +0100</pubDate>
       
-      <guid>https://jclegras.github.io/posts/what-is-tail-latency/</guid>
+      <guid>http://localhost:1313/posts/what-is-tail-latency/</guid>
       
         <description>&lt;h2 id=&#34;context&#34;&gt;Context&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Tail latency&lt;/strong&gt; refers to the slowest response times experienced by a small percentage of requests in a system. These are typically measured at the &lt;strong&gt;99th percentile (p99) or 99.9th percentile (p999)&lt;/strong&gt;.&lt;/p&gt;</description>
@@ -21,10 +21,10 @@
     
     <item>
       <title>Special Permissions</title>
-      <link>https://jclegras.github.io/posts/special-permissions/</link>
+      <link>http://localhost:1313/posts/special-permissions/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://jclegras.github.io/posts/special-permissions/</guid>
+      <guid>http://localhost:1313/posts/special-permissions/</guid>
       
         <description>&lt;h2 id=&#34;special-permissions-in-linux&#34;&gt;Special Permissions in Linux&lt;/h2&gt;
 &lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
@@ -34,10 +34,10 @@
     
     <item>
       <title>Le user namespace dans Docker</title>
-      <link>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</link>
+      <link>http://localhost:1313/posts/le-user-namespace-dans-docker/</link>
       <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</guid>
+      <guid>http://localhost:1313/posts/le-user-namespace-dans-docker/</guid>
       
         <description>&lt;h2 id=&#34;avant-larrivée-du-user-namespace-dans-docker&#34;&gt;Avant l&amp;rsquo;arrivée du user namespace dans Docker&lt;/h2&gt;
 &lt;p&gt;Lancement d&amp;rsquo;un conteneur Jenkins&lt;/p&gt;</description>

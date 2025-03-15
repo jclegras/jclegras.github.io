@@ -12,12 +12,9 @@ tags = ["setuid", "setgid", "sticky bit", "special permissions", "restricted del
 
 In this section, I will introduce the special permissions that are less commonly used than standard permissions.
 
-First, we will discuss **setuid** and **setgid** which can be set on files, using a small Golang program to observe their effects.
-
-Next, we will examine **setgid** but this time on directories.
-
-Finally, we will look into the **sticky bit** on directories.
-
+First, we will discuss **setuid** and **setgid** which can be set on files, using a small Golang program to observe their effects.  
+Next, we will examine **setgid** but this time on directories.  
+Finally, we will look into the **sticky bit** on directories.  
 To conclude, we will take a look at a Kubernetes feature that utilizes **setgid**.
 
 ### Special Permissions on a File

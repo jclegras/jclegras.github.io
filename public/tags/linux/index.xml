@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linux on Jean-Charles Legras&#39; blog</title>
-    <link>https://jclegras.github.io/tags/linux/</link>
+    <link>http://localhost:1313/tags/linux/</link>
     <description>Recent content in Linux on Jean-Charles Legras&#39; blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://jclegras.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Le user namespace dans Docker</title>
-      <link>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</link>
+      <link>http://localhost:1313/posts/le-user-namespace-dans-docker/</link>
       <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</guid>
+      <guid>http://localhost:1313/posts/le-user-namespace-dans-docker/</guid>
       
         <description>&lt;h2 id=&#34;avant-larrivée-du-user-namespace-dans-docker&#34;&gt;Avant l&amp;rsquo;arrivée du user namespace dans Docker&lt;/h2&gt;
 &lt;p&gt;Lancement d&amp;rsquo;un conteneur Jenkins&lt;/p&gt;</description>
