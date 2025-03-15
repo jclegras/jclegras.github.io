@@ -2,47 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Jean-Charles Legras&#39; blog</title>
-    <link>http://localhost:1313/posts/</link>
+    <link>https://jclegras.github.io/posts/</link>
     <description>Recent content in Posts on Jean-Charles Legras&#39; blog</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 15 Mar 2025 14:24:00 +0100</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 15 Mar 2025 14:24:00 +0100</lastBuildDate>
+    <atom:link href="https://jclegras.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>What is tail latency ?</title>
-      <link>http://localhost:1313/posts/what-is-tail-latency/</link>
+      <link>https://jclegras.github.io/posts/what-is-tail-latency/</link>
       <pubDate>Sat, 15 Mar 2025 14:24:00 +0100</pubDate>
-      
-      <guid>http://localhost:1313/posts/what-is-tail-latency/</guid>
-      
-        <description>&lt;h2 id=&#34;context&#34;&gt;Context&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Tail latency&lt;/strong&gt; refers to the slowest response times experienced by a small percentage of requests in a system. These are typically measured at the &lt;strong&gt;99th percentile (p99) or 99.9th percentile (p999)&lt;/strong&gt;.&lt;/p&gt;</description>
-      
+      <guid>https://jclegras.github.io/posts/what-is-tail-latency/</guid>
+      <description>&lt;h2 id=&#34;context&#34;&gt;Context&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Tail latency&lt;/strong&gt; refers to the slowest response times experienced by a small percentage of requests in a system. These are typically measured at the &lt;strong&gt;99th percentile (p99) or 99.9th percentile (p999)&lt;/strong&gt;.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Permissions spéciales</title>
-      <link>http://localhost:1313/posts/special-permissions/</link>
+      <link>https://jclegras.github.io/posts/special-permissions/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/posts/special-permissions/</guid>
-      
-        <description>&lt;h2 id=&#34;les-permissions-spéciales-sous-linux&#34;&gt;Les permissions spéciales sous Linux&lt;/h2&gt;
-&lt;h3 id=&#34;résumé&#34;&gt;Résumé&lt;/h3&gt;
-&lt;p&gt;Je vous présente ici les permissions dites spéciales qu&amp;rsquo;on utilise moins souvent que les permissions standards.&lt;/p&gt;</description>
-      
+      <guid>https://jclegras.github.io/posts/special-permissions/</guid>
+      <description>&lt;h2 id=&#34;les-permissions-spéciales-sous-linux&#34;&gt;Les permissions spéciales sous Linux&lt;/h2&gt;&#xA;&lt;h3 id=&#34;résumé&#34;&gt;Résumé&lt;/h3&gt;&#xA;&lt;p&gt;Je vous présente ici les permissions dites spéciales qu&amp;rsquo;on utilise moins souvent que les permissions standards.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Le user namespace dans Docker</title>
-      <link>http://localhost:1313/posts/le-user-namespace-dans-docker/</link>
+      <link>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</link>
       <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/posts/le-user-namespace-dans-docker/</guid>
-      
-        <description>&lt;h2 id=&#34;avant-larrivée-du-user-namespace-dans-docker&#34;&gt;Avant l&amp;rsquo;arrivée du user namespace dans Docker&lt;/h2&gt;
-&lt;p&gt;Lancement d&amp;rsquo;un conteneur Jenkins&lt;/p&gt;</description>
-      
+      <guid>https://jclegras.github.io/posts/le-user-namespace-dans-docker/</guid>
+      <description>&lt;h2 id=&#34;avant-larrivée-du-user-namespace-dans-docker&#34;&gt;Avant l&amp;rsquo;arrivée du user namespace dans Docker&lt;/h2&gt;&#xA;&lt;p&gt;Lancement d&amp;rsquo;un conteneur Jenkins&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

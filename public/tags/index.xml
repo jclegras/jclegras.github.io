@@ -2,142 +2,95 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Jean-Charles Legras&#39; blog</title>
-    <link>http://localhost:1313/tags/</link>
+    <link>https://jclegras.github.io/tags/</link>
     <description>Recent content in Tags on Jean-Charles Legras&#39; blog</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 15 Mar 2025 14:24:00 +0100</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 15 Mar 2025 14:24:00 +0100</lastBuildDate>
+    <atom:link href="https://jclegras.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Percentile</title>
-      <link>http://localhost:1313/tags/percentile/</link>
+      <link>https://jclegras.github.io/tags/percentile/</link>
       <pubDate>Sat, 15 Mar 2025 14:24:00 +0100</pubDate>
-      
-      <guid>http://localhost:1313/tags/percentile/</guid>
-      
-        <description></description>
-      
+      <guid>https://jclegras.github.io/tags/percentile/</guid>
+      <description></description>
     </item>
-    
     <item>
       <title>Performance</title>
-      <link>http://localhost:1313/tags/performance/</link>
+      <link>https://jclegras.github.io/tags/performance/</link>
       <pubDate>Sat, 15 Mar 2025 14:24:00 +0100</pubDate>
-      
-      <guid>http://localhost:1313/tags/performance/</guid>
-      
-        <description></description>
-      
+      <guid>https://jclegras.github.io/tags/performance/</guid>
+      <description></description>
     </item>
-    
     <item>
       <title>Tail Latency</title>
-      <link>http://localhost:1313/tags/tail-latency/</link>
+      <link>https://jclegras.github.io/tags/tail-latency/</link>
       <pubDate>Sat, 15 Mar 2025 14:24:00 +0100</pubDate>
-      
-      <guid>http://localhost:1313/tags/tail-latency/</guid>
-      
-        <description></description>
-      
+      <guid>https://jclegras.github.io/tags/tail-latency/</guid>
+      <description></description>
     </item>
-    
     <item>
       <title>Restricted Deletion Flag</title>
-      <link>http://localhost:1313/tags/restricted-deletion-flag/</link>
+      <link>https://jclegras.github.io/tags/restricted-deletion-flag/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/tags/restricted-deletion-flag/</guid>
-      
-        <description></description>
-      
+      <guid>https://jclegras.github.io/tags/restricted-deletion-flag/</guid>
+      <description></description>
     </item>
-    
     <item>
       <title>Setgid</title>
-      <link>http://localhost:1313/tags/setgid/</link>
+      <link>https://jclegras.github.io/tags/setgid/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/tags/setgid/</guid>
-      
-        <description></description>
-      
+      <guid>https://jclegras.github.io/tags/setgid/</guid>
+      <description></description>
     </item>
-    
     <item>
       <title>Setuid</title>
-      <link>http://localhost:1313/tags/setuid/</link>
+      <link>https://jclegras.github.io/tags/setuid/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/tags/setuid/</guid>
-      
-        <description></description>
-      
+      <guid>https://jclegras.github.io/tags/setuid/</guid>
+      <description></description>
     </item>
-    
     <item>
       <title>Special Permissions</title>
-      <link>http://localhost:1313/tags/special-permissions/</link>
+      <link>https://jclegras.github.io/tags/special-permissions/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/tags/special-permissions/</guid>
-      
-        <description></description>
-      
+      <guid>https://jclegras.github.io/tags/special-permissions/</guid>
+      <description></description>
     </item>
-    
     <item>
       <title>Sticky Bit</title>
-      <link>http://localhost:1313/tags/sticky-bit/</link>
+      <link>https://jclegras.github.io/tags/sticky-bit/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/tags/sticky-bit/</guid>
-      
-        <description></description>
-      
+      <guid>https://jclegras.github.io/tags/sticky-bit/</guid>
+      <description></description>
     </item>
-    
     <item>
       <title>Devops</title>
-      <link>http://localhost:1313/tags/devops/</link>
+      <link>https://jclegras.github.io/tags/devops/</link>
       <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/tags/devops/</guid>
-      
-        <description></description>
-      
+      <guid>https://jclegras.github.io/tags/devops/</guid>
+      <description></description>
     </item>
-    
     <item>
       <title>Docker</title>
-      <link>http://localhost:1313/tags/docker/</link>
+      <link>https://jclegras.github.io/tags/docker/</link>
       <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/tags/docker/</guid>
-      
-        <description></description>
-      
+      <guid>https://jclegras.github.io/tags/docker/</guid>
+      <description></description>
     </item>
-    
     <item>
       <title>Linux</title>
-      <link>http://localhost:1313/tags/linux/</link>
+      <link>https://jclegras.github.io/tags/linux/</link>
       <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/tags/linux/</guid>
-      
-        <description></description>
-      
+      <guid>https://jclegras.github.io/tags/linux/</guid>
+      <description></description>
     </item>
-    
     <item>
       <title>Namespace</title>
-      <link>http://localhost:1313/tags/namespace/</link>
+      <link>https://jclegras.github.io/tags/namespace/</link>
       <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/tags/namespace/</guid>
-      
-        <description></description>
-      
+      <guid>https://jclegras.github.io/tags/namespace/</guid>
+      <description></description>
     </item>
-    
   </channel>
 </rss>
