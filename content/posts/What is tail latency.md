@@ -3,6 +3,7 @@ date = '2025-03-15T14:24:00+01:00'
 draft = false
 title = 'What is tail latency ?'
 tags = ["performance", "tail latency", "percentile"]
+toc = true
 +++
 
 ## Context
@@ -35,7 +36,7 @@ $$P(at least one slow) = 1 - P(fast request)^n = 1 - (1 - P(slow request))^n$$
 
 ## Application
 
-**Problem 1**: If you fan out processing to 10 components and wait for all of them to complete what is the probability that a user request experiences the 99th percentile latency ?
+**Problem 1**: If you fan out processing to 10 components and wait for all of them to complete what is the probability that a user request experiences the 99th percentile latency?
 
 $$
 \begin{aligned}
@@ -48,7 +49,7 @@ $$
 
 If each component has a **1% chance** of being slow, a request fanned out to **10 components** will experience **at least one slow response** in **9% of cases**.
 
-**Problem 2**: If you fan out processing to 10 components and wait for all of them to complete what is the probability that a user request experiences the 95th percentile latency ?
+**Problem 2**: If you fan out processing to 10 components and wait for all of them to complete what is the probability that a user request experiences the 95th percentile latency?
 
 $$
 \begin{aligned}
@@ -71,7 +72,6 @@ If each component has a **5% chance** of being slow, a request fanned out to **1
 | 10   | 9.56%        |
 | 20   | 18.21%        |
 | 50   | 39.5%        |
-
 
 ## Conclusion
 
@@ -108,10 +108,9 @@ So
 
 $$P(at least one slow) = 1 - P(fast request)^n = 1 - (1 - P(slow request))^n$$
 
-
 ### How to calculate a worst case scenario
 
-If you fan out processing to 5 components and wait for all of them to complete what is the probability that a user request experiences the worst case scenario which is all components are slow ?
+If you fan out processing to 5 components and wait for all of them to complete what is the probability that a user request experiences the worst case scenario which is all components are slow?
 
 We suppose here the probability of a single component being slow is
 

@@ -14,7 +14,33 @@
       
       <guid>http://localhost:1313/posts/what-is-tail-latency/</guid>
       
-        <description>&lt;h2 id=&#34;context&#34;&gt;Context&lt;/h2&gt;
+        <description>&lt;h2 id=&#34;table-of-contents&#34;&gt;Table of Contents&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#context&#34;&gt;Context&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#how-tail-latency-arises-in-a-fan-out-model&#34;&gt;How tail latency arises in a fan-out model&lt;/a&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#probability-equation&#34;&gt;Probability equation&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#why-tail-latency-matters&#34;&gt;Why tail latency matters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#examples-of-tail-latency-in-real-life&#34;&gt;Examples of tail latency in real life&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#application&#34;&gt;Application&lt;/a&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#problem-1&#34;&gt;Problem 1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#problem-2&#34;&gt;Problem 2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#more-cases-on-p99&#34;&gt;More cases on p99&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#miscellaneous&#34;&gt;Miscellaneous&lt;/a&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#why-this-probability-equation&#34;&gt;Why this probability equation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#how-to-calculate-a-worst-case-scenario&#34;&gt;How to calculate a worst case scenario&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#resources&#34;&gt;Resources&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;context&#34;&gt;Context&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Tail latency&lt;/strong&gt; refers to the slowest response times experienced by a small percentage of requests in a system. These are typically measured at the &lt;strong&gt;99th percentile (p99) or 99.9th percentile (p999)&lt;/strong&gt;.&lt;/p&gt;</description>
       
     </item>

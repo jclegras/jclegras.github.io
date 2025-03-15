@@ -15,6 +15,23 @@
       <guid>http://localhost:1313/posts/special-permissions/</guid>
       
         <description>&lt;h2 id=&#34;special-permissions-in-linux&#34;&gt;Special Permissions in Linux&lt;/h2&gt;
+&lt;h3 id=&#34;table-of-contents&#34;&gt;Table of Contents&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#summary&#34;&gt;Summary&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#special-permissions-on-a-file&#34;&gt;Special Permissions on a File&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#setuidsetgid&#34;&gt;setuid/setgid&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#special-permissions-on-a-directory&#34;&gt;Special Permissions on a Directory&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#setgid&#34;&gt;setgid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#sticky-bit-more-precisely-here-restricted-deletion-flag&#34;&gt;Sticky bit (restricted deletion flag)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#kubernetes&#34;&gt;Kubernetes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#resources&#34;&gt;Resources&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
 &lt;p&gt;In this section, I will introduce the special permissions that are less commonly used than standard permissions.&lt;/p&gt;</description>
       

@@ -4,11 +4,10 @@ title = "Special Permissions"
 date = "2020-09-03"
 draft = false
 tags = ["setuid", "setgid", "sticky bit", "special permissions", "restricted deletion flag"]
+toc = true
 +++
 
-## Special Permissions in Linux
-
-### Summary
+## Summary
 
 In this section, I will introduce the special permissions that are less commonly used than standard permissions.
 
@@ -17,9 +16,9 @@ Next, we will examine **setgid** but this time on directories.
 Finally, we will look into the **sticky bit** on directories.  
 To conclude, we will take a look at a Kubernetes feature that utilizes **setgid**.
 
-### Special Permissions on a File
+## Special Permissions on a File
 
-#### setuid/setgid
+### setuid/setgid
 
 __Requirement__: Execute a file with the privileges of the file's owner/group respectively.
 
@@ -388,8 +387,6 @@ uid=2222 gid=0(root) groups=555
 The 'first' container can read the contents of the file 
   belonging to the 'second' container and vice versa
 {{< /highlight >}}
-
-
 
 ## Resources
 

@@ -117,7 +117,7 @@
   
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Special Permissions">
-  <meta name="twitter:description" content="Special Permissions in Linux Summary In this section, I will introduce the special permissions that are less commonly used than standard permissions.">
+  <meta name="twitter:description" content="Summary In this section, I will introduce the special permissions that are less commonly used than standard permissions.">
 
 
 
@@ -125,7 +125,7 @@
   <meta property="og:url" content="http://localhost:1313/posts/special-permissions/">
   <meta property="og:site_name" content="Jean-Charles Legras&#39; blog">
   <meta property="og:title" content="Special Permissions">
-  <meta property="og:description" content="Special Permissions in Linux Summary In this section, I will introduce the special permissions that are less commonly used than standard permissions.">
+  <meta property="og:description" content="Summary In this section, I will introduce the special permissions that are less commonly used than standard permissions.">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -153,7 +153,7 @@
         "alternativeHeadline": "",
         "description": "
       
-        \u003ch2 id=\u0022special-permissions-in-linux\u0022\u003eSpecial Permissions in Linux\u003c\/h2\u003e\n\u003ch3 id=\u0022summary\u0022\u003eSummary\u003c\/h3\u003e\n\u003cp\u003eIn this section, I will introduce the special permissions that are less commonly used than standard permissions.\u003c\/p\u003e
+        \u003ch2 id=\u0022summary\u0022\u003eSummary\u003c\/h2\u003e\n\u003cp\u003eIn this section, I will introduce the special permissions that are less commonly used than standard permissions.\u003c\/p\u003e
 
 
       
@@ -203,7 +203,7 @@
 
     ,
         "url" : "http:\/\/localhost:1313\/posts\/special-permissions\/",
-        "wordCount" : "1862",
+        "wordCount" : "1858",
         "genre" : [ ],
         "keywords" : [ 
       
@@ -425,15 +425,28 @@
       
         <h1>Special Permissions</h1>
       
-      <h2 id="special-permissions-in-linux">Special Permissions in Linux</h2>
-<h3 id="summary">Summary</h3>
+      <h3>Table of Contents</h3>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#special-permissions-on-a-file">Special Permissions on a File</a>
+      <ul>
+        <li><a href="#setuidsetgid">setuid/setgid</a></li>
+        <li><a href="#special-permissions-on-a-directory">Special Permissions on a Directory</a></li>
+        <li><a href="#kubernetes">Kubernetes</a></li>
+      </ul>
+    </li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+</nav>
+<h2 id="summary">Summary</h2>
 <p>In this section, I will introduce the special permissions that are less commonly used than standard permissions.</p>
 <p>First, we will discuss <strong>setuid</strong> and <strong>setgid</strong> which can be set on files, using a small Golang program to observe their effects.<br>
 Next, we will examine <strong>setgid</strong> but this time on directories.<br>
 Finally, we will look into the <strong>sticky bit</strong> on directories.<br>
 To conclude, we will take a look at a Kubernetes feature that utilizes <strong>setgid</strong>.</p>
-<h3 id="special-permissions-on-a-file">Special Permissions on a File</h3>
-<h4 id="setuidsetgid">setuid/setgid</h4>
+<h2 id="special-permissions-on-a-file">Special Permissions on a File</h2>
+<h3 id="setuidsetgid">setuid/setgid</h3>
 <p><strong>Requirement</strong>: Execute a file with the privileges of the file&rsquo;s owner/group respectively.</p>
 <p><strong>main.go</strong>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>

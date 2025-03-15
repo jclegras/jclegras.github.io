@@ -26,8 +26,7 @@
       
       <guid>http://localhost:1313/posts/special-permissions/</guid>
       
-        <description>&lt;h2 id=&#34;special-permissions-in-linux&#34;&gt;Special Permissions in Linux&lt;/h2&gt;
-&lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
+        <description>&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;In this section, I will introduce the special permissions that are less commonly used than standard permissions.&lt;/p&gt;</description>
       
     </item>

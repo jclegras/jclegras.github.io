@@ -201,7 +201,7 @@
 
     ,
         "url" : "http:\/\/localhost:1313\/posts\/what-is-tail-latency\/",
-        "wordCount" : "711",
+        "wordCount" : "708",
         "genre" : [ ],
         "keywords" : [ 
       
@@ -409,7 +409,33 @@
       
         <h1>What Is Tail Latency ?</h1>
       
-      <h2 id="context">Context</h2>
+      <h3>Table of Contents</h3>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#context">Context</a></li>
+    <li><a href="#how-tail-latency-arises-in-a-fan-out-model">How tail latency arises in a fan-out model</a>
+      <ul>
+        <li><a href="#probability-equation">Probability equation</a></li>
+      </ul>
+    </li>
+    <li><a href="#why-tail-latency-matters">Why tail latency matters</a></li>
+    <li><a href="#examples-of-tail-latency-in-real-life">Examples of tail latency in real life</a></li>
+    <li><a href="#application">Application</a>
+      <ul>
+        <li><a href="#more-cases-on-p99">More cases on p99</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#miscellaneous">Miscellaneous</a>
+      <ul>
+        <li><a href="#why-this-probability-equation">Why this probability equation</a></li>
+        <li><a href="#how-to-calculate-a-worst-case-scenario">How to calculate a worst case scenario</a></li>
+      </ul>
+    </li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+</nav>
+<h2 id="context">Context</h2>
 <p><strong>Tail latency</strong> refers to the slowest response times experienced by a small percentage of requests in a system. These are typically measured at the <strong>99th percentile (p99) or 99.9th percentile (p999)</strong>.</p>
 <h2 id="how-tail-latency-arises-in-a-fan-out-model">How tail latency arises in a fan-out model</h2>
 <p>In the <strong>fan-out model</strong> (where a request is split across multiple components and waits for all to complete), the <strong>overall request latency</strong> is determined by the <strong>slowest</strong> component.</p>
@@ -432,7 +458,7 @@
 <li>A search engine (like Google) may query multiple servers, but the overall search time is dictated by the slowest responding server.</li>
 </ul>
 <h2 id="application">Application</h2>
-<p><strong>Problem 1</strong>: If you fan out processing to 10 components and wait for all of them to complete what is the probability that a user request experiences the 99th percentile latency ?</p>
+<p><strong>Problem 1</strong>: If you fan out processing to 10 components and wait for all of them to complete what is the probability that a user request experiences the 99th percentile latency?</p>
 <p>$$
 \begin{aligned}
 P(\text{at least one slow}) &amp;= 1 - (1 - P(\text{slow request}))^{10} \\
@@ -442,7 +468,7 @@ P(\text{at least one slow}) &amp;\approx 0.09
 \end{aligned}
 $$</p>
 <p>If each component has a <strong>1% chance</strong> of being slow, a request fanned out to <strong>10 components</strong> will experience <strong>at least one slow response</strong> in <strong>9% of cases</strong>.</p>
-<p><strong>Problem 2</strong>: If you fan out processing to 10 components and wait for all of them to complete what is the probability that a user request experiences the 95th percentile latency ?</p>
+<p><strong>Problem 2</strong>: If you fan out processing to 10 components and wait for all of them to complete what is the probability that a user request experiences the 95th percentile latency?</p>
 <p>$$
 \begin{aligned}
 P(\text{at least one slow}) &amp;= 1 - (1 - P(\text{slow request}))^{10} \\
@@ -511,7 +537,7 @@ $$</p>
 <p>So</p>
 <p>$$P(at least one slow) = 1 - P(fast request)^n = 1 - (1 - P(slow request))^n$$</p>
 <h3 id="how-to-calculate-a-worst-case-scenario">How to calculate a worst case scenario</h3>
-<p>If you fan out processing to 5 components and wait for all of them to complete what is the probability that a user request experiences the worst case scenario which is all components are slow ?</p>
+<p>If you fan out processing to 5 components and wait for all of them to complete what is the probability that a user request experiences the worst case scenario which is all components are slow?</p>
 <p>We suppose here the probability of a single component being slow is</p>
 <p>$$P(slowrequest)=0.1$$</p>
 <p>So:</p>
