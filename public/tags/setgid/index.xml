@@ -2,23 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Setgid on Jean-Charles Legras&#39; blog</title>
-    <link>https://jclegras.github.io/tags/setgid/</link>
+    <link>http://localhost:1313/tags/setgid/</link>
     <description>Recent content in Setgid on Jean-Charles Legras&#39; blog</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://jclegras.github.io/tags/setgid/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/setgid/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Permissions spéciales</title>
-      <link>https://jclegras.github.io/posts/special-permissions/</link>
+      <link>http://localhost:1313/posts/special-permissions/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://jclegras.github.io/posts/special-permissions/</guid>
-      
-        <description>&lt;h2 id=&#34;les-permissions-spéciales-sous-linux&#34;&gt;Les permissions spéciales sous Linux&lt;/h2&gt;
-&lt;h3 id=&#34;résumé&#34;&gt;Résumé&lt;/h3&gt;
-&lt;p&gt;Je vous présente ici les permissions dites spéciales qu&amp;rsquo;on utilise moins souvent que les permissions standards.&lt;/p&gt;</description>
-      
+      <guid>http://localhost:1313/posts/special-permissions/</guid>
+      <description>&lt;h2 id=&#34;les-permissions-spéciales-sous-linux&#34;&gt;Les permissions spéciales sous Linux&lt;/h2&gt;&#xA;&lt;h3 id=&#34;résumé&#34;&gt;Résumé&lt;/h3&gt;&#xA;&lt;p&gt;Je vous présente ici les permissions dites spéciales qu&amp;rsquo;on utilise moins souvent que les permissions standards.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
