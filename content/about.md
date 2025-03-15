@@ -8,7 +8,7 @@ author = "Jean-Charles Legras"
 
 **Bonjour et bienvenue sur ce modeste blog !**
 
-Je m'appelle *Jean-Charles Legras* et je suis *[SRE/DevOps](https://romain.soufflet.io/work/devops/sre/2018/08/11/sre-devops-que-font-ils)* depuis bientôt cinq ans maintenant.
+Je m'appelle *Jean-Charles Legras* et je suis *[SRE/DevOps](https://romain.soufflet.io/work/devops/sre/2018/08/11/sre-devops-que-font-ils)* depuis 10 ans maintenant.
 
 Cette émulsion autour des pratiques et des outils DevOps me passionne chaque jour et ce blog se veut le reflet de mes pérégrinations en la matière.
 
