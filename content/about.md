@@ -6,7 +6,7 @@ aliases = ["about-us", "contact"]
 author = "Jean-Charles Legras"
 +++
 
-My name is Jean-Charles Legras, and I’ve been an SRE/DevOps for over 10 years.
+My name is *Jean-Charles Legras*, and I’ve been an *[SRE/DevOps](https://romain.soufflet.io/work/devops/sre/2018/08/11/sre-devops-que-font-ils)* for over 10 years.
 
 The world of DevOps practices and tools excites me every day, and this blog is a reflection of my ongoing journey and discoveries in this ever-evolving field.
 
