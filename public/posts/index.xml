@@ -8,6 +8,18 @@
     <language>en</language>
     <lastBuildDate>Sat, 15 Mar 2025 14:24:00 +0100</lastBuildDate><atom:link href="https://jclegras.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>What is tail latency ?</title>
+      <link>https://jclegras.github.io/posts/what-is-tail-latency/</link>
+      <pubDate>Sat, 15 Mar 2025 14:24:00 +0100</pubDate>
+      
+      <guid>https://jclegras.github.io/posts/what-is-tail-latency/</guid>
+      
+        <description>&lt;h2 id=&#34;context&#34;&gt;Context&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Tail latency&lt;/strong&gt; refers to the slowest response times experienced by a small percentage of requests in a system. These are typically measured at the &lt;strong&gt;99th percentile (p99) or 99.9th percentile (p999)&lt;/strong&gt;.&lt;/p&gt;</description>
+      
+    </item>
+    
+    <item>
       <title>Permissions spéciales</title>
       <link>https://jclegras.github.io/posts/special-permissions/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
